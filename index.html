@@ -137,8 +137,15 @@
       pointer-events: none;
     }
 
-    /* ===== ACTIVE PAGE HIGHLIGHTING (MOBILE SIDE MENU) ===== */
+    /* ===== ACTIVE PAGE HIGHLIGHTING ===== */
     .nav-link.active {
+      color: #1ABC9C !important;
+      font-weight: 700;
+      position: relative;
+    }
+
+    /* ✅ MOBILE DROPDOWN TOGGLE ACTIVE STATE */
+    .mobile-dropdown-toggle.active {
       color: #1ABC9C !important;
       font-weight: 700;
       position: relative;
@@ -146,7 +153,8 @@
 
     /* ✅ ACTIVE LINE ON MOBILE/TABLET LEFT SIDE */
     @media (max-width: 1023px) {
-      .nav-link.active::before {
+      .nav-link.active::before,
+      .mobile-dropdown-toggle.active::before {
         content: '';
         position: absolute;
         left: 0;
@@ -274,6 +282,14 @@
       .dropdown-menu a:hover {
         background: rgba(26, 188, 156, 0.1) !important;
         color: #1ABC9C !important;
+        border-left-color: #1ABC9C !important;
+      }
+
+      /* Active state for dropdown menu items */
+      .dropdown-menu a.active {
+        color: #1ABC9C !important;
+        font-weight: 700;
+        background: rgba(26, 188, 156, 0.1) !important;
         border-left-color: #1ABC9C !important;
       }
     }
@@ -415,14 +431,10 @@
       max-width: 100%;
       overflow-x: hidden;
     }
-    html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
 
-body {
-  padding-top: 68px;
-}
+    body {
+      padding-top: 68px;
+    }
 
   </style>
 </head>
@@ -482,7 +494,8 @@ body {
 
           <!-- Mobile Button -->
           <button class="mobile-dropdown-toggle lg:hidden w-full flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 text-textprimary dark:text-white font-medium text-base hover:bg-teal/5 transition-colors"
-                  data-target="homeDropdown">
+                  data-target="homeDropdown"
+                  data-page="home">
             <span>Home</span>
             <i class="fas fa-chevron-down text-xs dropdown-arrow-mobile"></i>
           </button>
@@ -491,13 +504,15 @@ body {
           <ul class="dropdown-menu lg:absolute lg:top-full lg:left-0" id="homeDropdown">
             <li>
               <a href="index.html"
-                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium">
+                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium"
+                 data-page="home">
                 Home Page 1
               </a>
             </li>
             <li>
               <a href="home-page-2.html"
-                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium">
+                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium"
+                 data-page="home">
                 Home Page 2
               </a>
             </li>
@@ -560,7 +575,8 @@ body {
 
           <!-- Mobile Button -->
           <button class="mobile-dropdown-toggle lg:hidden w-full flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 text-textprimary dark:text-white font-medium text-base hover:bg-teal/5 transition-colors"
-                  data-target="dashboardDropdown">
+                  data-target="dashboardDropdown"
+                  data-page="dashboard">
             <span>Dashboard</span>
             <i class="fas fa-chevron-down text-xs dropdown-arrow-mobile"></i>
           </button>
@@ -569,13 +585,15 @@ body {
           <ul class="dropdown-menu lg:absolute lg:top-full lg:left-0" id="dashboardDropdown">
             <li>
               <a href="user-dashboard.html"
-                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium">
+                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium"
+                 data-page="dashboard">
                 <i class="fas fa-user mr-2"></i>User
               </a>
             </li>
             <li>
               <a href="admin-dashboard.html"
-                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium">
+                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium"
+                 data-page="dashboard">
                 <i class="fas fa-user-shield mr-2"></i>Admin
               </a>
             </li>
@@ -592,10 +610,7 @@ body {
                   class="w-10 h-10 bg-transparent border-none text-textprimary dark:text-white rounded-lg flex items-center justify-center cursor-pointer transition-all text-lg hover:bg-teal/10 hover:text-teal hover:scale-110">
             <i class="fas fa-align-right"></i>
           </button>
-          <a href="login.html"
-             class="bg-transparent border-2 border-textprimary/30 dark:border-white/30 text-textprimary dark:text-white py-2.5 px-5 lg:px-6 rounded-lg font-semibold no-underline transition-all flex items-center justify-center gap-2 hover:bg-purple/10 hover:border-purple hover:text-purple text-sm lg:text-base whitespace-nowrap">
-            <i class="fas fa-user"></i>Login
-          </a>
+         
           <a href="login.html?tab=register"
              class="bg-teal border-2 border-teal text-white py-2.5 px-5 lg:px-6 rounded-lg font-bold no-underline transition-all flex items-center justify-center gap-2 hover:bg-teal-dark hover:border-teal-dark hover:-translate-y-1 hover:shadow-teal-lg text-sm lg:text-base whitespace-nowrap">
             <i class="fas fa-rocket"></i>Get Started
@@ -788,154 +803,291 @@ body {
 
     <div class="tablet-landscape-courses tablet-portrait-courses grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 max-w-[1400px] mx-auto">
       
-      <!-- Course Card 1 -->
-      <div class="bg-white dark:bg-textsecondary rounded-xl md:rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
-        <div class="h-[180px] md:h-[200px] overflow-hidden relative">
-          <div class="absolute inset-0 bg-gradient-to-t from-darkgrey/70 to-transparent z-10"></div>
-          <img src="images/Web Development Bootcamp.jpg" alt="Web Development" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+      <!-- Course Card 1 - Full Stack Development -->
+      <div class="bg-white dark:bg-textsecondary rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
+        <div class="relative h-44 sm:h-48 md:h-56 overflow-hidden">
+          <img src="services image/Full Stack Web Development.jpg" alt="Full Stack Development" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+          <span class="absolute top-4 left-4 bg-teal text-white py-1.5 px-4 rounded-full text-xs sm:text-sm font-bold">Bestseller</span>
         </div>
-        <div class="p-5 md:p-6 lg:p-8">
-          <span class="inline-block bg-purple text-white py-1 px-3 md:py-1.5 md:px-4 rounded-full text-xs md:text-sm font-bold mb-3 md:mb-4">Development</span>
-          <h3 class="text-textprimary dark:text-white mb-2 md:mb-3 text-lg md:text-xl lg:text-2xl font-bold">Web Development Bootcamp</h3>
-          <p class="text-textbody dark:text-textmuted mb-4 md:mb-5 text-sm md:text-base">Learn HTML, CSS, JavaScript, and modern frameworks from scratch</p>
-          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-3 md:pt-4 lg:pt-5">
-            <span class="text-xl md:text-2xl lg:text-4xl text-teal font-black">₹4,999</span>
-            <span class="text-textprimary dark:text-white font-semibold text-xs md:text-sm lg:text-base">⏱ 40 hours</span>
+        <div class="p-5 sm:p-6">
+          <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Full Stack Web Development</h3>
+          <p class="text-sm sm:text-base text-textbody dark:text-textmuted mb-4 sm:mb-5">Learn HTML, CSS, JavaScript, React, Node.js and build real-world projects</p>
+          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-4 sm:pt-5">
+            <span class="text-2xl sm:text-3xl md:text-4xl text-teal font-black">₹4,999</span>
+            <a href="course-details.html?course=fullstack" class="bg-teal text-white py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg font-semibold no-underline transition-all hover:bg-teal-dark hover:-translate-y-1 text-sm sm:text-base">
+              View More
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- Course Card 2 -->
-      <div class="bg-white dark:bg-textsecondary rounded-xl md:rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
-        <div class="h-[180px] md:h-[200px] overflow-hidden relative">
-          <div class="absolute inset-0 bg-gradient-to-t from-darkgrey/70 to-transparent z-10"></div>
-          <img src="images/Data Science Masterclass.jpg" alt="Data Science" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+      <!-- Course Card 2 - Python Programming -->
+      <div class="bg-white dark:bg-textsecondary rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-purple-lg hover:border-purple">
+        <div class="relative h-44 sm:h-48 md:h-56 overflow-hidden">
+          <img src="services image/Python Programming Masterclass.jpg" alt="Python Programming" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+          <span class="absolute top-4 left-4 bg-purple text-white py-1.5 px-4 rounded-full text-xs sm:text-sm font-bold">Popular</span>
         </div>
-        <div class="p-5 md:p-6 lg:p-8">
-          <span class="inline-block bg-purple text-white py-1 px-3 md:py-1.5 md:px-4 rounded-full text-xs md:text-sm font-bold mb-3 md:mb-4">Data Science</span>
-          <h3 class="text-textprimary dark:text-white mb-2 md:mb-3 text-lg md:text-xl lg:text-2xl font-bold">Data Science Masterclass</h3>
-          <p class="text-textbody dark:text-textmuted mb-4 md:mb-5 text-sm md:text-base">Master Python, machine learning, and data visualization</p>
-          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-3 md:pt-4 lg:pt-5">
-            <span class="text-xl md:text-2xl lg:text-4xl text-teal font-black">₹6,999</span>
-            <span class="text-textprimary dark:text-white font-semibold text-xs md:text-sm lg:text-base">⏱ 50 hours</span>
+        <div class="p-5 sm:p-6">
+          <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Python Programming Mastery</h3>
+          <p class="text-sm sm:text-base text-textbody dark:text-textmuted mb-4 sm:mb-5">From basics to advanced Python, data structures, and algorithms</p>
+          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-4 sm:pt-5">
+            <span class="text-2xl sm:text-3xl md:text-4xl text-purple font-black">₹3,999</span>
+            <a href="course-details.html?course=python" class="bg-purple text-white py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg font-semibold no-underline transition-all hover:bg-purple-dark hover:-translate-y-1 text-sm sm:text-base">
+              View More
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- Course Card 3 -->
-      <div class="bg-white dark:bg-textsecondary rounded-xl md:rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
-        <div class="h-[180px] md:h-[200px] overflow-hidden relative">
-          <div class="absolute inset-0 bg-gradient-to-t from-darkgrey/70 to-transparent z-10"></div>
-          <img src="images/ux.jpg" alt="UI/UX Design" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+      <!-- Course Card 3 - Java Programming -->
+      <div class="bg-white dark:bg-textsecondary rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
+        <div class="relative h-44 sm:h-48 md:h-56 overflow-hidden">
+          <img src="services image/Java Programming Complete.jpg" alt="Java Programming" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+          <span class="absolute top-4 left-4 bg-teal text-white py-1.5 px-4 rounded-full text-xs sm:text-sm font-bold">New</span>
         </div>
-        <div class="p-5 md:p-6 lg:p-8">
-          <span class="inline-block bg-purple text-white py-1 px-3 md:py-1.5 md:px-4 rounded-full text-xs md:text-sm font-bold mb-3 md:mb-4">Design</span>
-          <h3 class="text-textprimary dark:text-white mb-2 md:mb-3 text-lg md:text-xl lg:text-2xl font-bold">UI/UX Design Complete</h3>
-          <p class="text-textbody dark:text-textmuted mb-4 md:mb-5 text-sm md:text-base">Create stunning user interfaces and exceptional experiences</p>
-          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-3 md:pt-4 lg:pt-5">
-            <span class="text-xl md:text-2xl lg:text-4xl text-teal font-black">₹3,999</span>
-            <span class="text-textprimary dark:text-white font-semibold text-xs md:text-sm lg:text-base">⏱ 30 hours</span>
+        <div class="p-5 sm:p-6">
+          <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Java Programming Complete</h3>
+          <p class="text-sm sm:text-base text-textbody dark:text-textmuted mb-4 sm:mb-5">Master Java, Spring Boot, and enterprise application development</p>
+          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-4 sm:pt-5">
+            <span class="text-2xl sm:text-3xl md:text-4xl text-teal font-black">₹5,999</span>
+            <a href="course-details.html?course=java" class="bg-teal text-white py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg font-semibold no-underline transition-all hover:bg-teal-dark hover:-translate-y-1 text-sm sm:text-base">
+              View More
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- Course Card 4 -->
-      <div class="bg-white dark:bg-textsecondary rounded-xl md:rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
-        <div class="h-[180px] md:h-[200px] overflow-hidden relative">
-          <div class="absolute inset-0 bg-gradient-to-t from-darkgrey/70 to-transparent z-10"></div>
-          <img src="images/Mobile App Development.jpg" alt="Mobile Development" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+      <!-- Course Card 4 - UI/UX Design -->
+      <div class="bg-white dark:bg-textsecondary rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-purple-lg hover:border-purple">
+        <div class="relative h-44 sm:h-48 md:h-56 overflow-hidden">
+          <img src="services image/ux masterclass.jpg" alt="UI/UX Design" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+          <span class="absolute top-4 left-4 bg-rose-500 text-white py-1.5 px-4 rounded-full text-xs sm:text-sm font-bold">Trending</span>
         </div>
-        <div class="p-5 md:p-6 lg:p-8">
-          <span class="inline-block bg-purple text-white py-1 px-3 md:py-1.5 md:px-4 rounded-full text-xs md:text-sm font-bold mb-3 md:mb-4">Mobile</span>
-          <h3 class="text-textprimary dark:text-white mb-2 md:mb-3 text-lg md:text-xl lg:text-2xl font-bold">Mobile App Development</h3>
-          <p class="text-textbody dark:text-textmuted mb-4 md:mb-5 text-sm md:text-base">Build iOS and Android apps with React Native</p>
-          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-3 md:pt-4 lg:pt-5">
-            <span class="text-xl md:text-2xl lg:text-4xl text-teal font-black">₹5,999</span>
-            <span class="text-textprimary dark:text-white font-semibold text-xs md:text-sm lg:text-base">⏱ 45 hours</span>
+        <div class="p-5 sm:p-6">
+          <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">UI/UX Design Complete</h3>
+          <p class="text-sm sm:text-base text-textbody dark:text-textmuted mb-4 sm:mb-5">Master Figma, Adobe XD, user research, and design thinking</p>
+          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-4 sm:pt-5">
+            <span class="text-2xl sm:text-3xl md:text-4xl text-purple font-black">₹3,999</span>
+            <a href="course-details.html?course=uiux" class="bg-purple text-white py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg font-semibold no-underline transition-all hover:bg-purple-dark hover:-translate-y-1 text-sm sm:text-base">
+              View More
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- Course Card 5 -->
-      <div class="bg-white dark:bg-textsecondary rounded-xl md:rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
-        <div class="h-[180px] md:h-[200px] overflow-hidden relative">
-          <div class="absolute inset-0 bg-gradient-to-t from-darkgrey/70 to-transparent z-10"></div>
-          <img src="images/Digital Marketing.jpg" alt="Digital Marketing" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+      <!-- Course Card 5 - Graphic Design -->
+      <div class="bg-white dark:bg-textsecondary rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
+        <div class="relative h-44 sm:h-48 md:h-56 overflow-hidden">
+          <img src="services image/Graphic Design Pro.jpg" alt="Graphic Design" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+          <span class="absolute top-4 left-4 bg-teal text-white py-1.5 px-4 rounded-full text-xs sm:text-sm font-bold">Popular</span>
         </div>
-        <div class="p-5 md:p-6 lg:p-8">
-          <span class="inline-block bg-purple text-white py-1 px-3 md:py-1.5 md:px-4 rounded-full text-xs md:text-sm font-bold mb-3 md:mb-4">Marketing</span>
-          <h3 class="text-textprimary dark:text-white mb-2 md:mb-3 text-lg md:text-xl lg:text-2xl font-bold">Digital Marketing Pro</h3>
-          <p class="text-textbody dark:text-textmuted mb-4 md:mb-5 text-sm md:text-base">Master SEO, social media, and content strategy</p>
-          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-3 md:pt-4 lg:pt-5">
-            <span class="text-xl md:text-2xl lg:text-4xl text-teal font-black">₹4,499</span>
-            <span class="text-textprimary dark:text-white font-semibold text-xs md:text-sm lg:text-base">⏱ 35 hours</span>
+        <div class="p-5 sm:p-6">
+          <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Graphic Design Fundamentals</h3>
+          <p class="text-sm sm:text-base text-textbody dark:text-textmuted mb-4 sm:mb-5">Learn Photoshop, Illustrator, and create professional designs</p>
+          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-4 sm:pt-5">
+            <span class="text-2xl sm:text-3xl md:text-4xl text-teal font-black">₹3,499</span>
+            <a href="course-details.html?course=graphic" class="bg-teal text-white py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg font-semibold no-underline transition-all hover:bg-teal-dark hover:-translate-y-1 text-sm sm:text-base">
+              View More
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- Course Card 6 -->
-      <div class="bg-white dark:bg-textsecondary rounded-xl md:rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
-        <div class="h-[180px] md:h-[200px] overflow-hidden relative">
-          <div class="absolute inset-0 bg-gradient-to-t from-darkgrey/70 to-transparent z-10"></div>
-          <img src="images/Cybersecurity Fundamentals.jpg" alt="Cybersecurity" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+      <!-- Course Card 6 - Motion Graphics -->
+      <div class="bg-white dark:bg-textsecondary rounded-2xl overflow-hidden shadow-lg border border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-purple-lg hover:border-purple">
+        <div class="relative h-44 sm:h-48 md:h-56 overflow-hidden">
+          <img src="services image/Motion Graphics Animation.jpg" alt="Motion Graphics" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+          <span class="absolute top-4 left-4 bg-purple text-white py-1.5 px-4 rounded-full text-xs sm:text-sm font-bold">Advanced</span>
         </div>
-        <div class="p-5 md:p-6 lg:p-8">
-          <span class="inline-block bg-purple text-white py-1 px-3 md:py-1.5 md:px-4 rounded-full text-xs md:text-sm font-bold mb-3 md:mb-4">Security</span>
-          <h3 class="text-textprimary dark:text-white mb-2 md:mb-3 text-lg md:text-xl lg:text-2xl font-bold">Cybersecurity Fundamentals</h3>
-          <p class="text-textbody dark:text-textmuted mb-4 md:mb-5 text-sm md:text-base">Learn ethical hacking and network security essentials</p>
-          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-3 md:pt-4 lg:pt-5">
-            <span class="text-xl md:text-2xl lg:text-4xl text-teal font-black">₹7,999</span>
-            <span class="text-textprimary dark:text-white font-semibold text-xs md:text-sm lg:text-base">⏱ 55 hours</span>
+        <div class="p-5 sm:p-6">
+          <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Motion Graphics Animation</h3>
+          <p class="text-sm sm:text-base text-textbody dark:text-textmuted mb-4 sm:mb-5">Create engaging animations with After Effects and Cinema 4D</p>
+          <div class="flex justify-between items-center border-t-2 border-lightgrey dark:border-darkgrey-light pt-4 sm:pt-5">
+            <span class="text-2xl sm:text-3xl md:text-4xl text-purple font-black">₹4,999</span>
+            <a href="course-details.html?course=motion" class="bg-purple text-white py-2 sm:py-2.5 px-4 sm:px-6 rounded-lg font-semibold no-underline transition-all hover:bg-purple-dark hover:-translate-y-1 text-sm sm:text-base">
+              View More
+            </a>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Courses Button -->
+    <div class="text-center mt-10 md:mt-14">
+      <a href="courses.html" class="inline-flex items-center gap-3 bg-gradient-to-r from-purple to-teal text-white py-4 px-8 rounded-full text-base md:text-lg font-bold no-underline transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+        <span>View All Courses</span>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== WHY CHOOSE US SECTION ========== -->
+  <section class="py-12 md:py-16 lg:py-20 px-4 md:px-6 lg:px-12 bg-white dark:bg-darkgrey-light">
+    <div class="max-w-[1400px] mx-auto">
+      <h2 class="section-title text-center text-2xl md:text-4xl lg:text-5xl mb-3 md:mb-4 text-textprimary dark:text-white font-black relative inline-block left-1/2 -translate-x-1/2">
+        Why Choose Growwpark?
+      </h2>
+      <p class="text-center text-textmuted dark:text-textmuted text-sm md:text-base lg:text-xl mb-8 md:mb-12 lg:mb-14 max-w-3xl mx-auto mt-4 md:mt-6 px-4">
+        We provide the best learning experience with cutting-edge technology
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        
+        <!-- Feature 1 -->
+        <div class="bg-white dark:bg-textsecondary p-6 md:p-8 rounded-2xl border-2 border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
+          <div class="w-14 h-14 md:w-16 md:h-16 bg-teal/10 rounded-xl flex items-center justify-center mb-4 md:mb-6">
+            <i class="fas fa-chalkboard-teacher text-2xl md:text-3xl text-teal"></i>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Expert Instructors</h3>
+          <p class="text-sm md:text-base text-textbody dark:text-textmuted leading-relaxed">
+            Learn from industry professionals with years of real-world experience
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white dark:bg-textsecondary p-6 md:p-8 rounded-2xl border-2 border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-purple-lg hover:border-purple">
+          <div class="w-14 h-14 md:w-16 md:h-16 bg-purple/10 rounded-xl flex items-center justify-center mb-4 md:mb-6">
+            <i class="fas fa-laptop-code text-2xl md:text-3xl text-purple"></i>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Hands-On Projects</h3>
+          <p class="text-sm md:text-base text-textbody dark:text-textmuted leading-relaxed">
+            Build real-world projects and add them to your professional portfolio
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white dark:bg-textsecondary p-6 md:p-8 rounded-2xl border-2 border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
+          <div class="w-14 h-14 md:w-16 md:h-16 bg-teal/10 rounded-xl flex items-center justify-center mb-4 md:mb-6">
+            <i class="fas fa-certificate text-2xl md:text-3xl text-teal"></i>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Verified Certificates</h3>
+          <p class="text-sm md:text-base text-textbody dark:text-textmuted leading-relaxed">
+            Earn industry-recognized certificates to boost your career prospects
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="bg-white dark:bg-textsecondary p-6 md:p-8 rounded-2xl border-2 border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-purple-lg hover:border-purple">
+          <div class="w-14 h-14 md:w-16 md:h-16 bg-purple/10 rounded-xl flex items-center justify-center mb-4 md:mb-6">
+            <i class="fas fa-users text-2xl md:text-3xl text-purple"></i>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Community Support</h3>
+          <p class="text-sm md:text-base text-textbody dark:text-textmuted leading-relaxed">
+            Join a vibrant community of learners and get help whenever you need
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="bg-white dark:bg-textsecondary p-6 md:p-8 rounded-2xl border-2 border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-teal-lg hover:border-teal">
+          <div class="w-14 h-14 md:w-16 md:h-16 bg-teal/10 rounded-xl flex items-center justify-center mb-4 md:mb-6">
+            <i class="fas fa-infinity text-2xl md:text-3xl text-teal"></i>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Lifetime Access</h3>
+          <p class="text-sm md:text-base text-textbody dark:text-textmuted leading-relaxed">
+            Get unlimited access to all course materials and future updates
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="bg-white dark:bg-textsecondary p-6 md:p-8 rounded-2xl border-2 border-lightgrey dark:border-darkgrey-light transition-all duration-300 hover:-translate-y-3 hover:shadow-purple-lg hover:border-purple">
+          <div class="w-14 h-14 md:w-16 md:h-16 bg-purple/10 rounded-xl flex items-center justify-center mb-4 md:mb-6">
+            <i class="fas fa-mobile-alt text-2xl md:text-3xl text-purple"></i>
+          </div>
+          <h3 class="text-xl md:text-2xl font-bold text-textprimary dark:text-white mb-3">Learn Anywhere</h3>
+          <p class="text-sm md:text-base text-textbody dark:text-textmuted leading-relaxed">
+            Access courses on any device - desktop, tablet, or mobile
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ========== LEARNING SUPPORT SERVICES ========== -->
-  <section class="relative min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-center overflow-hidden bg-white dark:bg-darkgrey">
-    
+  <!-- ========== 24/7 SUPPORT SECTION ========== -->
+  <section class="relative py-16 md:py-20 lg:py-24 px-4 md:px-6 lg:px-12 overflow-hidden">
     <!-- Background Image -->
-    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920" alt="Learning Support" class="absolute top-0 left-0 w-full h-full object-cover z-1">
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('herosection images/24-7.jpg');"></div>
     
-    <!-- Dark Gradient Overlay -->
-    <div class="support-overlay absolute top-0 left-0 w-full h-full z-10"></div>
-
-    <!-- Content Container -->
-    <div class="relative z-20 w-full px-4 md:px-6 lg:px-12 py-12 md:py-16 lg:py-20">
-      <div class="max-w-[1400px] mx-auto grid md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
+    <!-- Overlay -->
+    <div class="support-overlay absolute inset-0"></div>
+    
+    <!-- Content -->
+    <div class="relative z-10 max-w-[1400px] mx-auto">
+      <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
         
-        <!-- Left Content Box -->
-        <div class="bg-white dark:bg-textsecondary p-6 md:p-8 lg:p-12 rounded-2xl md:rounded-3xl shadow-purple-lg backdrop-blur-sm animate-slideInLeft border-2 border-teal/30">
-          <p class="text-textbody dark:text-textmuted text-sm md:text-base lg:text-lg leading-relaxed mb-4 md:mb-6">
-            All the services you need to get to market quickly and easily, when you need them: That's Kajeet Learning Support Services.
-          </p>
-          <p class="text-textbody dark:text-textmuted text-sm md:text-base lg:text-lg leading-relaxed mb-4 md:mb-6">
-            Need help with curriculum planning and course selection? Want support with content creation? How about tutoring, mentoring, and guidance, and direct support to your students?
-          </p>
-          <p class="text-textbody dark:text-textmuted text-sm md:text-base lg:text-lg leading-relaxed mb-6 md:mb-8">
-            We'll meet you wherever you are in your learning journey to help you succeed quickly and easily -- so you can focus on achieving your goals, and not on distractions.
-          </p>
+        <!-- LEFT CONTENT -->
+        <div class="text-white">
+          <span class="inline-block bg-teal/20 backdrop-blur-sm text-teal border-2 border-teal/50 py-2 px-5 rounded-full text-xs md:text-sm font-bold mb-4 md:mb-6">
+            <i class="fas fa-headset mr-2"></i>ALWAYS HERE FOR YOU
+          </span>
           
-          <!-- TEAL BUTTON -->
-          <a href="courses.html"
-             class="inline-flex items-center gap-2 md:gap-3 bg-teal dark:bg-teal text-white py-3 md:py-4 px-6 md:px-8 rounded-full font-black text-xs md:text-sm lg:text-base uppercase tracking-wider no-underline transition-all duration-300 hover:bg-teal-dark hover:scale-105 hover:-translate-y-1 hover:shadow-teal-lg group">
-            LEARN MORE ABOUT LEARNING SUPPORT
-            <i class="fas fa-arrow-right text-base md:text-lg transition-transform duration-300 group-hover:translate-x-2"></i>
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4 md:mb-6 leading-tight">
+            24/7 Expert Support
+          </h2>
+          
+          <p class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 text-gray-200 leading-relaxed">
+            Get instant help whenever you need it. Our dedicated support team is available round the clock to assist you with any questions or technical issues.
+          </p>
+
+          <div class="space-y-4 md:space-y-5 mb-6 md:mb-8">
+            <div class="flex items-start gap-3 md:gap-4">
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-teal rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-comments text-white text-lg md:text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg md:text-xl font-bold mb-1 md:mb-2">Live Chat Support</h4>
+                <p class="text-sm md:text-base text-gray-300">Get instant responses from our support team via live chat</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 md:gap-4">
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-purple rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-envelope text-white text-lg md:text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg md:text-xl font-bold mb-1 md:mb-2">Email Support</h4>
+                <p class="text-sm md:text-base text-gray-300">Send us your queries and get detailed responses within hours</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 md:gap-4">
+              <div class="w-10 h-10 md:w-12 md:h-12 bg-teal rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-phone-alt text-white text-lg md:text-xl"></i>
+              </div>
+              <div>
+                <h4 class="text-lg md:text-xl font-bold mb-1 md:mb-2">Phone Support</h4>
+                <p class="text-sm md:text-base text-gray-300">Speak directly with our experts for immediate assistance</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="contact.html" class="inline-flex items-center gap-3 bg-teal text-white py-3 md:py-4 px-6 md:px-8 rounded-full text-sm md:text-base font-bold no-underline transition-all duration-300 hover:bg-teal-dark hover:scale-105 hover:shadow-teal-lg">
+            <i class="fas fa-paper-plane"></i>
+            <span>Contact Support</span>
           </a>
         </div>
 
-        <!-- Right Content -->
-        <div class="animate-slideInRight">
-          <!-- Service Focus Badge -->
-          <div class="inline-block bg-teal dark:bg-teal text-white py-2 md:py-3 px-4 md:px-6 rounded-full font-black text-xs md:text-sm uppercase tracking-wider mb-4 md:mb-6 shadow-teal">
-            SERVICE FOCUS: LEARNING SUPPORT SERVICES
+        <!-- RIGHT IMAGE/STATS -->
+        <div class="hidden lg:block">
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-8 border-2 border-white/20">
+            <div class="grid grid-cols-2 gap-4 md:gap-6">
+              <div class="text-center bg-teal/20 backdrop-blur-sm p-4 md:p-6 rounded-xl border border-teal/30">
+                <div class="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-2">99%</div>
+                <p class="text-xs md:text-sm text-gray-200 font-semibold">Satisfaction Rate</p>
+              </div>
+              <div class="text-center bg-purple/20 backdrop-blur-sm p-4 md:p-6 rounded-xl border border-purple/30">
+                <div class="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-2">&lt;5m</div>
+                <p class="text-xs md:text-sm text-gray-200 font-semibold">Response Time</p>
+              </div>
+              <div class="text-center bg-teal/20 backdrop-blur-sm p-4 md:p-6 rounded-xl border border-teal/30">
+                <div class="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-2">50K+</div>
+                <p class="text-xs md:text-sm text-gray-200 font-semibold">Happy Students</p>
+              </div>
+              <div class="text-center bg-purple/20 backdrop-blur-sm p-4 md:p-6 rounded-xl border border-purple/30">
+                <div class="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-2">24/7</div>
+                <p class="text-xs md:text-sm text-gray-200 font-semibold">Always Available</p>
+              </div>
+            </div>
           </div>
-          
-          <!-- Main Heading -->
-          <h2 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white leading-tight drop-shadow-2xl">
-            Get to Market Quickly and Easily with Learning Support Services
-          </h2>
         </div>
       </div>
     </div>
@@ -1007,7 +1159,7 @@ body {
             <div class="text-sm md:text-base">
               <p class="font-semibold text-textprimary dark:text-white">support@growwpark.com</p>
               <p class="text-xs md:text-sm text-textmuted">We reply within 24 hours</p>
-            </div>
+            </div>   
           </div>
           <div class="flex gap-3 items-start">
             <div class="w-10 h-10 rounded-lg bg-teal flex-shrink-0 flex items-center justify-center text-white">
@@ -1053,9 +1205,14 @@ body {
     // ===== ACTIVE PAGE DETECTION =====
     function setActivePage() {
       const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-      const navLinks = document.querySelectorAll('.nav-link');
       
-      navLinks.forEach(link => {
+      // Remove all active classes first
+      document.querySelectorAll('.nav-link, .mobile-dropdown-toggle, .dropdown-menu a').forEach(el => {
+        el.classList.remove('active');
+      });
+      
+      // Set active for nav links
+      document.querySelectorAll('.nav-link').forEach(link => {
         const href = link.getAttribute('href');
         const page = link.getAttribute('data-page');
         
@@ -1065,8 +1222,38 @@ body {
           link.classList.add('active');
         }
       });
+      
+      // Set active for mobile dropdown toggles
+      document.querySelectorAll('.mobile-dropdown-toggle').forEach(toggle => {
+        const page = toggle.getAttribute('data-page');
+        
+        if ((currentPage === 'index.html' && page === 'home') ||
+            (currentPage === '' && page === 'home')) {
+          toggle.classList.add('active');
+        }
+      });
+      
+      // Set active for dropdown menu items
+      document.querySelectorAll('.dropdown-menu a').forEach(link => {
+        const href = link.getAttribute('href');
+        
+        if (href === currentPage) {
+          link.classList.add('active');
+          
+          // Also mark parent dropdown as active
+          const parentDropdown = link.closest('.nav-dropdown');
+          if (parentDropdown) {
+            const parentLink = parentDropdown.querySelector('.nav-link');
+            const parentToggle = parentDropdown.querySelector('.mobile-dropdown-toggle');
+            
+            if (parentLink) parentLink.classList.add('active');
+            if (parentToggle) parentToggle.classList.add('active');
+          }
+        }
+      });
     }
 
+    // Call on page load
     setActivePage();
 
     // ===== MOBILE MENU TOGGLE =====
