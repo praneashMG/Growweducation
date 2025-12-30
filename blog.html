@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LearnHub Blog - Learning Tips, Productivity, and Career Guidance" />
+  <title>Blog - Growwpark EduTech</title>
+  
+  <!-- ✅ FAVICON -->
+  <link rel="icon" type="image/x-icon" href="images/growwpark_logo.ico">
+  <link rel="shortcut icon" href="images/growwpark_logo.ico">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            purple: {
+              DEFAULT: '#8E44AD',
+              dark: '#6C2E8C',
+              light: '#A569BD',
+              pale: '#F4EAFB',
+            },
+            teal: {
+              DEFAULT: '#1ABC9C',
+              dark: '#16A085',
+              light: '#48C9B0',
+              pale: '#E8F8F5',
+            },
+            darkgrey: {
+              DEFAULT: '#1D1D1B',
+              light: '#333333',
+              lighter: '#666666',
+            },
+            offwhite: '#F8F9FA',
+            lightgrey: '#E5E5E5',
+            textprimary: '#1D1D1B',
+            textsecondary: '#333333',
+            textbody: '#666666',
+            textmuted: '#999999',
+            border: '#E5E5E5',
+          },
+          animation: {
+            "pulse-slow": "pulse 2s cubic-bezier(0.4,0,0.6,1) infinite",
+            "float": "float 6s infinite ease-in-out",
+            "fadeInUp": "fadeInUp 0.8s ease-out",
+            "glow": "glow 2s ease-in-out infinite",
+            "zoomIn": "zoomIn 1s ease-out",
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' }
+            },
+            fadeInUp: {
+              "from": { opacity: "0", transform: "translateY(30px)" },
+              "to": { opacity: "1", transform: "translateY(0)" }
+            },
+            glow: {
+              "0%, 100%": { boxShadow: "0 10px 30px rgba(26, 188, 156, 0.3)" },
+              "50%": { boxShadow: "0 10px 50px rgba(26, 188, 156, 0.6)" }
+            },
+            zoomIn: {
+              "from": { opacity: "0", transform: "scale(0.8)" },
+              "to": { opacity: "1", transform: "scale(1)" }
+            }
+          },
+          boxShadow: {
+            'teal': '0 10px 30px rgba(26, 188, 156, 0.2)',
+            'teal-lg': '0 20px 40px rgba(26, 188, 156, 0.3)',
+            'purple': '0 10px 30px rgba(142, 68, 173, 0.2)',
+            'purple-lg': '0 20px 40px rgba(142, 68, 173, 0.3)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    [data-theme="dark"] {
+      --tw-bg-opacity: 1;
+      background-color: rgb(29 29 27 / var(--tw-bg-opacity));
+    }
+    
+    /* ===== HAMBURGER STYLES ===== */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 10012;
+      position: relative;
+    }
+
+    .hamburger span {
+      display: block;
+      background: #1ABC9C;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Show hamburger for mobile & 800x1280 portrait, hide for desktop landscape */
+    @media (min-width: 1024px) and (orientation: landscape) {
+      .hamburger {
+        display: none !important;
+      }
+    }
+
+    .hamburger.active {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ===== ACTIVE PAGE HIGHLIGHTING ===== */
+    .nav-link.active {
+      color: #1ABC9C !important;
+      font-weight: 700;
+      position: relative;
+    }
+
+    @media (max-width: 1023px) {
+      .nav-link.active::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 70%;
+        background: #1ABC9C;
+        border-radius: 0 4px 4px 0;
+      }
+    }
+
+    .dropdown-arrow {
+      display: inline-block !important;
+      transition: transform 0.3s ease;
+    }
+
+    /* ===== DESKTOP DROPDOWN (1024px LANDSCAPE & UP) ===== */
+    @media (min-width: 1024px) and (orientation: landscape) {
+      .nav-dropdown {
+        position: relative;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 220px;
+        background: #ffffff;
+        border-radius: 0.75rem;
+        box-shadow: 0 18px 45px rgba(29, 29, 27, 0.15);
+        border-top: 4px solid #1ABC9C;
+        padding: 0.5rem 0;
+        margin-top: 0.5rem;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 9999;
+        display: block !important;
+      }
+
+      [data-theme="dark"] .dropdown-menu {
+        background: #333333;
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.8);
+      }
+
+      .nav-dropdown:hover .dropdown-menu,
+      .dropdown-menu:hover {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+      }
+
+      .dropdown-menu li {
+        display: block;
+        width: 100%;
+        list-style: none;
+      }
+
+      .dropdown-menu a {
+        display: block;
+        padding: 0.75rem 1.25rem;
+        color: #1D1D1B;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      [data-theme="dark"] .dropdown-menu a {
+        color: #ffffff;
+      }
+
+      .dropdown-menu a:hover {
+        background: rgba(26, 188, 156, 0.1);
+        color: #1ABC9C;
+        padding-left: 1.75rem;
+        border-left: 3px solid #1ABC9C;
+      }
+
+      .mobile-dropdown-toggle {
+        display: none !important;
+      }
+    }
+
+    /* ===== MOBILE/TABLET DROPDOWN ===== */
+    @media (max-width: 1023px) {
+      .dropdown-menu {
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+      }
+
+      .dropdown-menu.active {
+        max-height: 500px;
+      }
+
+      .dropdown-menu li {
+        list-style: none;
+      }
+
+      .dropdown-menu a {
+        display: block;
+        padding: 0.75rem 1.5rem 0.75rem 2.5rem !important;
+        color: inherit;
+        background: rgba(26, 188, 156, 0.05) !important;
+        border-left: 3px solid transparent !important;
+      }
+
+      .dropdown-menu a:hover {
+        background: rgba(26, 188, 156, 0.1) !important;
+        color: #1ABC9C !important;
+        border-left-color: #1ABC9C !important;
+      }
+    }
+
+    .dropdown-arrow-mobile {
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown-arrow-mobile.rotated {
+      transform: rotate(180deg);
+    }
+
+    .nav-menu {
+      transition: left 0.4s ease;
+      left: -100%;
+    }
+    
+    @media (min-width: 1024px) and (orientation: landscape) {
+      .nav-menu {
+        left: 0 !important;
+        position: static;
+        height: auto;
+        background: transparent;
+      }
+    }
+    
+    .nav-menu.active {
+      left: 0 !important;
+    }
+    
+    [dir="rtl"] .nav-menu {
+      left: auto;
+      right: -100%;
+      transition: right 0.4s ease;
+    }
+    
+    [dir="rtl"] .nav-menu.active {
+      right: 0 !important;
+    }
+    
+    @media (min-width: 1024px) and (orientation: landscape) {
+      [dir="rtl"] .nav-menu {
+        right: 0 !important;
+      }
+    }
+
+    /* 1280x800 LANDSCAPE OPTIMIZATIONS */
+    @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
+      .nav-menu {
+        gap: 1.25rem !important;
+      }
+      
+      .nav-link {
+        font-size: 0.875rem !important;
+        padding: 1.25rem 0 !important;
+      }
+
+      .nav-right {
+        gap: 0.5rem !important;
+      }
+
+      .nav-right a,
+      .nav-right button {
+        font-size: 0.8rem !important;
+        padding: 0.5rem 1rem !important;
+      }
+
+      .nav-right button {
+        width: 36px !important;
+        height: 36px !important;
+      }
+    }
+
+    /* 800x1280 PORTRAIT - SHOW HAMBURGER */
+    @media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+      .hamburger {
+        display: flex !important;
+      }
+
+      .nav-right {
+        display: none !important;
+      }
+
+      .nav-menu {
+        position: fixed;
+        left: -100%;
+        transition: left 0.4s ease;
+      }
+
+      .nav-menu.active {
+        left: 0 !important;
+      }
+    }
+
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  padding-top: 68px;
+}
+
+  </style>
+</head>
+
+<body class="font-sans leading-relaxed text-textbody overflow-x-hidden bg-white dark:bg-darkgrey dark:text-textmuted transition-all duration-300 max-w-full">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 z-[10010] bg-white dark:bg-darkgrey shadow-lg border-b border-lightgrey dark:border-darkgrey-light">
+
+    <div class="max-w-[1400px] mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2 sm:gap-3 py-2 no-underline group">
+        <div class="w-10 h-10 sm:w-[50px] sm:h-[50px] bg-purple rounded-full flex items-center justify-center font-black text-lg sm:text-xl text-white transition-transform duration-300 group-hover:rotate-180 group-hover:bg-purple-dark">
+          GP
+        </div>
+        <div class="flex flex-col">
+          <div class="text-textprimary dark:text-white text-lg sm:text-2xl font-bold leading-tight">Growwpark</div>
+          <div class="text-purple text-xs sm:text-sm font-normal">EduTech</div>
+        </div>
+      </a>
+
+      <!-- Nav Menu -->
+      <ul id="navMenu"
+          class="nav-menu list-none lg:flex items-center gap-4 lg:gap-6 xl:gap-8 m-0 fixed lg:static top-0 w-full lg:w-auto h-screen lg:h-auto bg-offwhite dark:bg-textsecondary lg:bg-transparent flex-col lg:flex-row justify-start lg:justify-center p-0 overflow-y-auto lg:overflow-visible z-[10011] shadow-xl lg:shadow-none">
+
+        <!-- Mobile header -->
+        <div class="mobile-menu-header flex lg:hidden justify-between items-center p-4 sm:p-5 bg-white dark:bg-darkgrey border-b border-purple/20 w-full gap-3">
+          <div class="text-textprimary dark:text-white text-base sm:text-lg font-black flex items-center gap-2">
+            🎓 Growwpark EduTech
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="darkModeToggleMobile"
+                    class="w-9 h-9 bg-transparent border border-teal/30 text-teal rounded-lg flex items-center justify-center cursor-pointer transition-all text-base hover:bg-teal/10 hover:scale-110">
+              <i id="darkModeIconMobile" class="fas fa-moon"></i>
+            </button>
+            <button id="rtlToggleMobile"
+                    class="w-9 h-9 bg-transparent border border-teal/30 text-teal rounded-lg flex items-center justify-center cursor-pointer transition-all text-base hover:bg-teal/10 hover:scale-110">
+              <i class="fas fa-align-right"></i>
+            </button>
+            <button id="closeMenu"
+                    class="close-menu w-9 h-9 bg-teal/20 border-2 border-teal text-teal rounded-lg cursor-pointer flex items-center justify-center transition-all duration-300 hover:bg-teal hover:text-white hover:rotate-90 hover:scale-110">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Home dropdown -->
+        <li class="nav-item nav-dropdown relative w-full lg:w-auto border-b border-lightgrey lg:border-none lg:h-full lg:flex lg:items-center">
+          <a href="javascript:void(0);"
+             class="nav-link hidden lg:flex items-center gap-1 text-textprimary dark:text-white no-underline py-4 sm:py-5 lg:py-6 px-4 sm:px-6 lg:px-0 font-medium text-base transition-all duration-300 relative hover:text-teal w-full" 
+             data-page="home">
+            Home
+            <span class="dropdown-arrow text-xs">▼</span>
+          </a>
+
+          <button class="mobile-dropdown-toggle lg:hidden w-full flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 text-textprimary dark:text-white font-medium text-base hover:bg-teal/5 transition-colors"
+                  data-target="homeDropdown">
+            <span>Home</span>
+            <i class="fas fa-chevron-down text-xs dropdown-arrow-mobile"></i>
+          </button>
+
+          <ul class="dropdown-menu lg:absolute lg:top-full lg:left-0" id="homeDropdown">
+            <li>
+              <a href="index.html"
+                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium">
+                Home Page 1
+              </a>
+            </li>
+            <li>
+              <a href="home-page-2.html"
+                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium">
+                Home Page 2
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- About -->
+        <li class="nav-item w-full lg:w-auto border-b border-lightgrey lg:border-none relative lg:h-full lg:flex lg:items-center">
+          <a href="about.html"
+             class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 lg:py-6 px-4 sm:px-6 lg:px-0 flex items-center font-medium text-base transition-all relative hover:text-teal w-full" data-page="about">
+            About
+          </a>
+        </li>
+
+        <!-- Courses -->
+        <li class="nav-item w-full lg:w-auto border-b border-lightgrey lg:border-none relative lg:h-full lg:flex lg:items-center">
+          <a href="courses.html"
+             class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 lg:py-6 px-4 sm:px-6 lg:px-0 flex items-center font-medium text-base transition-all relative hover:text-teal w-full" data-page="courses">
+            Courses
+          </a>
+        </li>
+        
+        <!-- Pricing -->
+        <li class="nav-item w-full lg:w-auto border-b border-lightgrey lg:border-none relative lg:h-full lg:flex lg:items-center">
+          <a href="pricing.html"
+             class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 lg:py-6 px-4 sm:px-6 lg:px-0 flex items-center font-medium text-base transition-all relative hover:text-teal w-full" data-page="pricing">
+            Pricing
+          </a>
+        </li>
+        
+        <!-- Blog (ACTIVE) -->
+        <li class="nav-item w-full lg:w-auto border-b border-lightgrey lg:border-none relative lg:h-full lg:flex lg:items-center">
+          <a href="blog.html"
+             class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 lg:py-6 px-4 sm:px-6 lg:px-0 flex items-center font-medium text-base transition-all relative hover:text-teal w-full" data-page="blog">
+            Blog
+          </a>
+        </li>
+        
+        <li class="nav-item w-full lg:w-auto border-b border-lightgrey lg:border-none relative lg:h-full lg:flex lg:items-center">
+          <a href="faq.html"
+             class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 lg:py-6 px-4 sm:px-6 lg:px-0 flex items-center font-medium text-base transition-all relative hover:text-teal w-full" data-page="faq">
+            FAQ
+          </a>
+        </li>
+        
+        <li class="nav-item w-full lg:w-auto border-b border-lightgrey lg:border-none relative lg:h-full lg:flex lg:items-center">
+          <a href="contact.html"
+             class="nav-link text-textprimary dark:text-white no-underline py-4 sm:py-5 lg:py-6 px-4 sm:px-6 lg:px-0 flex items-center font-medium text-base transition-all relative hover:text-teal w-full" data-page="contact">
+            Contact
+          </a>
+        </li>
+
+        <!-- Dashboard dropdown -->
+        <li class="nav-item nav-dropdown relative w-full lg:w-auto border-b border-lightgrey lg:border-none lg:h-full lg:flex lg:items-center">
+          <a href="javascript:void(0);"
+             class="nav-link hidden lg:flex items-center gap-1 text-textprimary dark:text-white no-underline py-4 sm:py-5 lg:py-6 px-4 sm:px-6 lg:px-0 font-medium text-base transition-all duration-300 relative hover:text-teal w-full" 
+             data-page="dashboard">
+            Dashboard
+            <span class="dropdown-arrow text-xs">▼</span>
+          </a>
+
+          <button class="mobile-dropdown-toggle lg:hidden w-full flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 text-textprimary dark:text-white font-medium text-base hover:bg-teal/5 transition-colors"
+                  data-target="dashboardDropdown">
+            <span>Dashboard</span>
+            <i class="fas fa-chevron-down text-xs dropdown-arrow-mobile"></i>
+          </button>
+
+          <ul class="dropdown-menu lg:absolute lg:top-full lg:left-0" id="dashboardDropdown">
+            <li>
+              <a href="user-dashboard.html"
+                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium">
+                <i class="fas fa-user mr-2"></i>User
+              </a>
+            </li>
+            <li>
+              <a href="admin-dashboard.html"
+                 class="block py-2 sm:py-3 px-4 sm:px-6 text-textprimary dark:text-white no-underline transition-all font-medium">
+                <i class="fas fa-user-shield mr-2"></i>Admin
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Right buttons -->
+        <div class="nav-right hidden lg:flex w-auto items-center gap-3 xl:gap-4">
+          <button id="darkModeToggle"
+                  class="w-10 h-10 bg-transparent border-none text-textprimary dark:text-white rounded-lg flex items-center justify-center cursor-pointer transition-all text-lg hover:bg-teal/10 hover:text-teal hover:scale-110">
+            <i id="darkModeIcon" class="fas fa-moon"></i>
+          </button>
+          <button id="rtlToggle"
+                  class="w-10 h-10 bg-transparent border-none text-textprimary dark:text-white rounded-lg flex items-center justify-center cursor-pointer transition-all text-lg hover:bg-teal/10 hover:text-teal hover:scale-110">
+            <i class="fas fa-align-right"></i>
+          </button>
+         
+          <a href="login.html?tab=register"
+             class="bg-teal border-2 border-teal text-white py-2.5 px-5 lg:px-6 rounded-lg font-bold no-underline transition-all flex items-center justify-center gap-2 hover:bg-teal-dark hover:border-teal-dark hover:-translate-y-1 hover:shadow-teal-lg text-sm lg:text-base whitespace-nowrap">
+            <i class="fas fa-rocket"></i>Get Started
+          </a>
+        </div>
+
+        <!-- Login/Register buttons (Mobile) -->
+        <div class="w-full flex lg:hidden flex-col gap-3 p-4 sm:p-6 mt-auto">
+          <a href="login.html"
+             class="w-full bg-transparent border-2 border-purple text-textprimary dark:text-white py-3 px-6 rounded-lg font-semibold no-underline transition-all flex items-center justify-center gap-2 hover:bg-purple/10 text-base">
+            <i class="fas fa-user"></i>Login
+          </a>
+          <a href="login.html?tab=register"
+             class="w-full bg-teal border-2 border-teal text-white py-3 px-6 rounded-lg font-bold no-underline transition-all flex items-center justify-center gap-2 hover:bg-teal-dark text-base">
+            <i class="fas fa-rocket"></i>Get Started
+          </a>
+        </div>
+      </ul>
+
+      <!-- Hamburger Menu Button -->
+      <button id="hamburger"
+              class="hamburger flex flex-col gap-1 cursor-pointer p-2 bg-transparent border-none">
+        <span class="w-6 h-[3px] sm:w-7 rounded"></span>
+        <span class="w-6 h-[3px] sm:w-7 rounded"></span>
+        <span class="w-6 h-[3px] sm:w-7 rounded"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="relative min-h-[60vh] sm:min-h-[65vh] lg:min-h-[70vh] flex items-center justify-center text-center text-white overflow-hidden">
+    <img src="herosection images/bloghero.jpg"
+         alt="Blog Hero"
+         class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/70 to-purple/95"></div>
+    <div class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 sm:mb-6 animate-fadeInUp">
+        Our Blog
+      </h1>
+      <p class="text-base sm:text-lg md:text-xl max-w-2xl mx-auto opacity-95 leading-relaxed">
+        Discover learning tips, productivity hacks, and career guidance to help you succeed.
+      </p>
+    </div>
+  </section>
+
+  <!-- WHY READ OUR BLOG SECTION -->
+  <section class="bg-gradient-to-br from-teal/5 to-blue-50 dark:from-slate-900 dark:to-slate-800 py-12 sm:py-16 lg:py-20">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="text-center mb-10 sm:mb-12">
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-purple dark:text-white mb-3 sm:mb-4">
+          Why Read Our Blog?
+        </h2>
+        <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
+          We provide actionable insights, expert advice, and proven strategies to accelerate your learning journey
+        </p>
+      </div>
+
+      <!-- Features Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <!-- Feature 1 -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-6 text-center transition-all hover:-translate-y-2 hover:shadow-teal group">
+          <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4 group-hover:animate-float">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Expert Insights</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Learn from industry professionals and education experts</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-6 text-center transition-all hover:-translate-y-2 hover:shadow-teal group">
+          <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4 group-hover:animate-float">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Practical Tips</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Actionable strategies you can implement immediately</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-6 text-center transition-all hover:-translate-y-2 hover:shadow-teal group">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4 group-hover:animate-float">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Career Growth</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Build skills and strategies for professional success</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-6 text-center transition-all hover:-translate-y-2 hover:shadow-teal group">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4 group-hover:animate-float">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Regular Updates</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">Fresh content every week to keep you motivated</p>
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-4 sm:p-6 text-center">
+          <div class="text-3xl sm:text-4xl font-black text-teal mb-2">250+</div>
+          <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Articles Published</div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-4 sm:p-6 text-center">
+          <div class="text-3xl sm:text-4xl font-black text-emerald-500 mb-2">50K+</div>
+          <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Monthly Readers</div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-4 sm:p-6 text-center">
+          <div class="text-3xl sm:text-4xl font-black text-amber-500 mb-2">98%</div>
+          <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Reader Satisfaction</div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-xl shadow-lg p-4 sm:p-6 text-center">
+          <div class="text-3xl sm:text-4xl font-black text-purple mb-2">12+</div>
+          <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Topic Categories</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG LAYOUT -->
+  <section class="bg-white dark:bg-[#020617] py-10 sm:py-12 lg:py-16">
+    <div class="max-w-1200px mx-auto grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-8 px-4 sm:px-6 lg:px-10">
+      <!-- SIDEBAR -->
+      <aside class="space-y-6 lg:sticky lg:top-[110px] lg:self-start">
+        <!-- Search -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-5 sm:p-6">
+          <h3 class="text-teal text-lg font-bold mb-4">Search</h3>
+          <input id="searchBox"
+                 type="text"
+                 placeholder="Search articles..."
+                 class="w-full px-4 py-2.5 rounded-lg border-2 border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:border-teal" />
+        </div>
+
+        <!-- Categories -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-5 sm:p-6">
+          <h3 class="text-teal text-lg font-bold mb-4">Categories</h3>
+          <ul class="space-y-2 category-list">
+            <li class="category-item active flex items-center justify-between px-4 py-2.5 rounded-lg cursor-pointer text-sm font-semibold bg-gray-100 dark:bg-slate-800">
+              <span data-category="all">All Articles</span>
+              <span class="category-count bg-white text-teal px-3 py-1 rounded-full text-xs font-semibold">12</span>
+            </li>
+            <li class="category-item flex items-center justify-between px-4 py-2.5 rounded-lg cursor-pointer text-sm font-semibold bg-gray-50 dark:bg-slate-800/80"
+                data-category="learning">
+              <span>Learning Tips</span>
+              <span class="category-count bg-white text-teal px-3 py-1 rounded-full text-xs font-semibold">4</span>
+            </li>
+            <li class="category-item flex items-center justify-between px-4 py-2.5 rounded-lg cursor-pointer text-sm font-semibold bg-gray-50 dark:bg-slate-800/80"
+                data-category="productivity">
+              <span>Productivity</span>
+              <span class="category-count bg-white text-teal px-3 py-1 rounded-full text-xs font-semibold">4</span>
+            </li>
+            <li class="category-item flex items-center justify-between px-4 py-2.5 rounded-lg cursor-pointer text-sm font-semibold bg-gray-50 dark:bg-slate-800/80"
+                data-category="career">
+              <span>Career Guidance</span>
+              <span class="category-count bg-white text-teal px-3 py-1 rounded-full text-xs font-semibold">4</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Tags -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-5 sm:p-6">
+          <h3 class="text-teal text-lg font-bold mb-4">Popular Tags</h3>
+          <div class="flex flex-wrap gap-2 text-xs sm:text-sm">
+            <span class="tag px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 cursor-pointer hover:bg-teal hover:text-white transition">Online Learning</span>
+            <span class="tag px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 cursor-pointer hover:bg-teal hover:text-white transition">Study Tips</span>
+            <span class="tag px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 cursor-pointer hover:bg-teal hover:text-white transition">Career Growth</span>
+            <span class="tag px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 cursor-pointer hover:bg-teal hover:text-white transition">Time Management</span>
+            <span class="tag px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 cursor-pointer hover:bg-teal hover:text-white transition">Skills</span>
+            <span class="tag px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 cursor-pointer hover:bg-teal hover:text-white transition">Motivation</span>
+            <span class="tag px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 cursor-pointer hover:bg-teal hover:text-white transition">Focus</span>
+            <span class="tag px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 cursor-pointer hover:bg-teal hover:text-white transition">Coding</span>
+            <span class="tag px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 cursor-pointer hover:bg-teal hover:text-white transition">Job Search</span>
+          </div>
+        </div>
+
+        <!-- Recent Posts -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-5 sm:p-6">
+          <h3 class="text-teal text-lg font-bold mb-4">Recent Posts</h3>
+          <div class="space-y-4">
+            <!-- Recent Post 1 -->
+            <a href="blog-details.html?post=study-techniques" class="flex gap-3 group no-underline">
+              <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                <img src="blog images/10 Effective Study Techniques.jpg" alt="Study Techniques" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-teal transition line-clamp-2">
+                  10 Effective Study Techniques
+                </h4>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <i class="far fa-clock mr-1"></i>Nov 15, 2025
+                </p>
+              </div>
+            </a>
+
+            <!-- Recent Post 2 -->
+            <a href="blog-details.html?post=time-management" class="flex gap-3 group no-underline">
+              <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                <img src="blog images/5 Time Management Techniques for Busy Professionals.jpg" alt="Time Management" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-teal transition line-clamp-2">
+                  Time Management Techniques
+                </h4>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <i class="far fa-clock mr-1"></i>Nov 12, 2025
+                </p>
+              </div>
+            </a>
+
+            <!-- Recent Post 3 -->
+            <a href="blog-details.html?post=resume-building" class="flex gap-3 group no-underline">
+              <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                <img src="blog images/how to build resume.jpg" alt="Resume Building" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-teal transition line-clamp-2">
+                  Build a Resume That Stands Out
+                </h4>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <i class="far fa-clock mr-1"></i>Nov 10, 2025
+                </p>
+              </div>
+            </a>
+
+            <!-- Recent Post 4 -->
+            <a href="blog-details.html?post=morning-routine" class="flex gap-3 group no-underline">
+              <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                <img src="blog images/The Ultimate Morning Routine for Maximum Productivity.jpg" alt="Morning Routine" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-teal transition line-clamp-2">
+                  Ultimate Morning Routine
+                </h4>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <i class="far fa-clock mr-1"></i>Nov 6, 2025
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Newsletter Subscribe -->
+        <div class="bg-gradient-to-br from-teal to-teal-dark rounded-2xl shadow-lg p-6 text-white text-center">
+          <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+            <i class="fas fa-envelope-open-text"></i>
+          </div>
+          <h3 class="text-xl font-black mb-2">Subscribe Now!</h3>
+          <p class="text-sm text-white/90 mb-4">
+            Get weekly updates, exclusive tips, and career advice directly in your inbox.
+          </p>
+          <form class="space-y-3">
+            <input type="email" 
+                   placeholder="Enter your email" 
+                   class="w-full px-4 py-2.5 rounded-lg bg-white/20 border border-white/30 text-white placeholder:text-white/70 focus:outline-none focus:bg-white/30 text-sm" />
+            <button type="submit" 
+                    class="w-full bg-white text-teal py-2.5 rounded-lg font-bold hover:bg-gray-100 transition text-sm">
+              <i class="fas fa-paper-plane mr-2"></i>Subscribe
+            </button>
+          </form>
+          <p class="text-xs text-white/80 mt-3">
+            🔒 We respect your privacy. Unsubscribe anytime.
+          </p>
+        </div>
+      </aside>
+
+      <!-- MAIN BLOG CONTENT -->
+      <main class="blog-content w-full">
+        <!-- Filter bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+          <div class="text-sm sm:text-base text-gray-500 dark:text-gray-400">
+            Showing <strong id="resultsCount" class="font-semibold text-gray-800 dark:text-white">12</strong> articles
+          </div>
+          <select id="sortDropdown"
+                  class="sort-dropdown px-4 py-2.5 rounded-lg border-2 border-gray-100 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm cursor-pointer focus:outline-none focus:border-teal">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="popular">Most Popular</option>
+          </select>
+        </div>
+
+        <!-- Blog list -->
+        <div id="blogList" class="flex flex-col gap-5">
+          <!-- Card 1 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="learning"
+                   data-post="study-techniques">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/10 Effective Study Techniques.jpg"
+                   alt="Study Techniques"
+                   class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+              <div class="absolute inset-0 bg-gradient-to-br from-teal/30 to-teal/40 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Nov 15, 2025</span>
+                <span>Priya Sharma</span>
+                <span>5 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-500 mb-3">
+                Learning Tips
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                10 Effective Study Techniques to Master Any Subject
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Discover proven study methods for faster learning and better retention.
+              </p>
+              <a href="blog-details.html?post=study-techniques"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="productivity"
+                   data-post="time-management">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/5 Time Management Techniques for Busy Professionals.jpg"
+                   alt="Time Management"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Nov 12, 2025</span>
+                <span>Meena Soni</span>
+                <span>4 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-500 mb-3">
+                Productivity
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                5 Time Management Techniques for Busy Professionals
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Master your schedule and increase productivity with action-driven techniques.
+              </p>
+              <a href="blog-details.html?post=time-management"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="career"
+                   data-post="resume-building">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/how to build resume.jpg"
+                   alt="Resume Building"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Nov 10, 2025</span>
+                <span>Rahul Verma</span>
+                <span>7 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-500 mb-3">
+                Career Guidance
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                How to Build a Resume That Stands Out
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Tips for showcasing your skills, designing a great resume, and landing more interviews.
+              </p>
+              <a href="blog-details.html?post=resume-building"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="learning"
+                   data-post="online-vs-traditional">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/Online Learning vs Traditional.jpg"
+                   alt="Online vs Traditional Learning"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Nov 8, 2025</span>
+                <span>Anita Singh</span>
+                <span>6 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-500 mb-3">
+                Learning Tips
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Online Learning vs Traditional Classroom: Pros and Cons
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Explore what works best for your goals and learning style.
+              </p>
+              <a href="blog-details.html?post=online-vs-traditional"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="productivity"
+                   data-post="morning-routine">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/The Ultimate Morning Routine for Maximum Productivity.jpg"
+                   alt="Morning Routine"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Nov 6, 2025</span>
+                <span>Sandeep Reddy</span>
+                <span>5 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-500 mb-3">
+                Productivity
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                The Ultimate Morning Routine for Maximum Productivity
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Build a routine that sharpens focus, energy, and daily output.
+              </p>
+              <a href="blog-details.html?post=morning-routine"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="career"
+                   data-post="beat-procrastination">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/Career Planning.jpg"
+                   alt="Beat Procrastination"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Nov 5, 2025</span>
+                <span>Priti Vasta</span>
+                <span>5 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-500 mb-3">
+                Career Guidance
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                How to Beat Procrastination and Stay Focused
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Practical tools for breaking distractions and meeting deadlines.
+              </p>
+              <a href="blog-details.html?post=beat-procrastination"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 7 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="learning"
+                   data-post="learn-coding">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/10 Effective Study Techniques.jpg"
+                   alt="Learn Coding"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Nov 4, 2025</span>
+                <span>Rajesh Kumar</span>
+                <span>4 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-500 mb-3">
+                Learning Tips
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                How to Learn Coding: A Complete Beginner's Guide
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Start coding from scratch and build your first projects confidently.
+              </p>
+              <a href="blog-details.html?post=learn-coding"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 8 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="career"
+                   data-post="spaced-repetition">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/The Science of Spaced Repetition.jpg"
+                   alt="Spaced Repetition"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Nov 2, 2025</span>
+                <span>Amit Patel</span>
+                <span>6 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-500 mb-3">
+                Career Guidance
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                The Science of Spaced Repetition for Better Memory
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Use spaced repetition to remember concepts for the long term.
+              </p>
+              <a href="blog-details.html?post=spaced-repetition"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 9 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="productivity"
+                   data-post="short-breaks">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/How to Use Short Breaks for Maximum Focus.jpg"
+                   alt="Short Breaks"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Nov 1, 2025</span>
+                <span>Kavya Rao</span>
+                <span>3 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-500 mb-3">
+                Productivity
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                How to Use Short Breaks for Maximum Focus
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Work in focused bursts and recover with planned micro-breaks.
+              </p>
+              <a href="blog-details.html?post=short-breaks"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 10 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="learning"
+                   data-post="motivation-science">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/motivation.jpg"
+                   alt="Motivation Science"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Oct 30, 2025</span>
+                <span>Priya Mehta</span>
+                <span>4 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-500 mb-3">
+                Learning Tips
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                The Science Behind Motivation in Learning
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Learn how to stay motivated and consistent with your study routine.
+              </p>
+              <a href="blog-details.html?post=motivation-science"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 11 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="career"
+                   data-post="career-planning">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/Career Planning.jpg"
+                   alt="Career Planning"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Oct 28, 2025</span>
+                <span>Deepa Singh</span>
+                <span>6 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-500 mb-3">
+                Career Guidance
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Career Planning for the Digital Age
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Plan and grow your career in a world of AI and online skills.
+              </p>
+              <a href="blog-details.html?post=career-planning"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 12 -->
+          <article class="blog-card flex flex-col sm:flex-row bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-lg hover:shadow-teal hover:-translate-y-1.5 transition cursor-pointer"
+                   data-category="productivity"
+                   data-post="mindfulness-developers">
+            <div class="blog-image relative w-full sm:w-[240px] h-[190px] sm:h-[210px] overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+              <img src="blog images/Mindfulness for Developers.jpg"
+                   alt="Mindfulness Developers"
+                   class="w-full h-full object-cover" />
+            </div>
+            <div class="blog-info flex-1 p-4 sm:p-6">
+              <div class="blog-meta flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
+                <span>Oct 26, 2025</span>
+                <span>Sanjay Nair</span>
+                <span>5 min read</span>
+              </div>
+              <span class="blog-category inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-500 mb-3">
+                Productivity
+              </span>
+              <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Mindfulness for Developers: Staying Focused During Work
+              </h3>
+              <p class="blog-excerpt text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                Use mindful strategies to block distractions and hit your goals faster.
+              </p>
+              <a href="blog-details.html?post=mindfulness-developers"
+                 class="read-more inline-flex items-center gap-2 text-teal font-semibold text-sm sm:text-base">
+                Read More
+                <i class="fas fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination flex justify-center flex-wrap gap-2 mt-8">
+          <button class="page-btn px-4 py-2 rounded-lg border-2 border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-semibold hover:bg-teal hover:text-white hover:border-teal transition active">
+            1
+          </button>
+          <button class="page-btn px-4 py-2 rounded-lg border-2 border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-semibold hover:bg-teal hover:text-white hover:border-teal transition">
+            2
+          </button>
+          <button class="page-btn px-4 py-2 rounded-lg border-2 border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-semibold hover:bg-teal hover:text-white hover:border-teal transition">
+            3
+          </button>
+          <button class="page-btn px-4 py-2 rounded-lg border-2 border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-semibold hover:bg-teal hover:text-white hover:border-teal transition">
+            Next
+          </button>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white dark:bg-darkgrey text-textprimary dark:text-textmuted py-8 md:py-12 lg:py-20 px-4 md:px-6 lg:px-8 border-t border-lightgrey dark:border-darkgrey-light">
+    <div class="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12">
+      
+      <!-- Column 1: About -->
+      <div>
+        <div class="flex items-center gap-2 mb-4 md:mb-6">
+          <div class="w-10 h-10 bg-purple rounded-full flex items-center justify-center font-black text-lg text-white">
+            GP
+          </div>
+          <div>
+            <div class="text-xl md:text-2xl font-black text-textprimary dark:text-white leading-tight">Growwpark</div>
+            <div class="text-purple text-xs font-semibold">EduTech</div>
+          </div>
+        </div>
+        <p class="text-textbody dark:text-textmuted text-sm md:text-base mb-4 md:mb-6 leading-relaxed">
+          Your trusted partner for exceptional educational experiences since 2015. Building futures one course at a time.
+        </p>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 md:w-12 md:h-12 bg-teal/10 rounded-lg flex items-center justify-center text-teal text-base md:text-lg no-underline border-2 border-teal/30 transition-all hover:bg-teal hover:text-white hover:-translate-y-1 hover:border-teal">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="#" class="w-10 h-10 md:w-12 md:h-12 bg-purple/10 rounded-lg flex items-center justify-center text-purple text-base md:text-lg no-underline border-2 border-purple/30 transition-all hover:bg-purple hover:text-white hover:-translate-y-1 hover:border-purple">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="#" class="w-10 h-10 md:w-12 md:h-12 bg-teal/10 rounded-lg flex items-center justify-center text-teal text-base md:text-lg no-underline border-2 border-teal/30 transition-all hover:bg-teal hover:text-white hover:-translate-y-1 hover:border-teal">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+          <a href="#" class="w-10 h-10 md:w-12 md:h-12 bg-purple/10 rounded-lg flex items-center justify-center text-purple text-base md:text-lg no-underline border-2 border-purple/30 transition-all hover:bg-purple hover:text-white hover:-translate-y-1 hover:border-purple">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div>
+        <h3 class="text-lg md:text-xl lg:text-2xl mb-4 md:mb-6 font-bold text-purple">Quick Links</h3>
+        <ul class="list-none space-y-2 md:space-y-3">
+          <li><a href="index.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-teal hover:pl-2">Home</a></li>
+          <li><a href="about.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-teal hover:pl-2">About</a></li>
+          <li><a href="courses.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-teal hover:pl-2">Courses</a></li>
+          <li><a href="pricing.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-teal hover:pl-2">Pricing</a></li>
+          <li><a href="blog.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-teal hover:pl-2">Blog</a></li>
+          <li><a href="faq.html" class="text-textbody dark:text-textmuted text-sm md:text-base no-underline transition-all hover:text-teal hover:pl-2">FAQ</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact -->
+      <div>
+        <h3 class="text-lg md:text-xl lg:text-2xl mb-4 md:mb-6 font-bold text-purple">Contact</h3>
+        <div class="space-y-3 md:space-y-4 text-textbody dark:text-textmuted">
+          <div class="flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-teal flex-shrink-0 flex items-center justify-center text-white">
+              <i class="fas fa-phone text-sm"></i>
+            </div>
+            <div class="text-sm md:text-base">
+              <p class="font-semibold text-textprimary dark:text-white">+1800-459-890</p>
+              <p class="text-xs md:text-sm text-textmuted">Mon - Sat, 9am - 7pm</p>
+            </div>
+          </div>
+          <div class="flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-teal flex-shrink-0 flex items-center justify-center text-white">
+              <i class="fas fa-envelope text-sm"></i>
+            </div>
+            <div class="text-sm md:text-base">
+              <p class="font-semibold text-textprimary dark:text-white">support@growwpark.com</p>
+              <p class="text-xs md:text-sm text-textmuted">We reply within 24 hours</p>
+            </div>
+          </div>
+          <div class="flex gap-3 items-start">
+            <div class="w-10 h-10 rounded-lg bg-teal flex-shrink-0 flex items-center justify-center text-white">
+              <i class="fas fa-location-dot text-sm"></i>
+            </div>
+            <div class="text-sm md:text-base">
+              <p class="font-semibold text-textprimary dark:text-white">Chennai, India</p>
+              <p class="text-xs md:text-sm text-textmuted">Remote‑first team</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 4: Newsletter -->
+      <div>
+        <h3 class="text-lg md:text-xl lg:text-2xl mb-4 md:mb-6 font-bold text-purple">Stay Updated</h3>
+        <p class="text-textbody dark:text-textmuted text-sm md:text-base mb-4 leading-relaxed">
+          Subscribe to get the latest course launches, offers, and career tips.
+        </p>
+        <form class="space-y-3">
+          <input type="email"
+                 placeholder="Enter your email"
+                 class="w-full px-4 py-3 rounded-lg bg-offwhite dark:bg-textsecondary border-2 border-lightgrey dark:border-darkgrey-light text-textprimary dark:text-white placeholder:text-textmuted focus:outline-none focus:border-teal text-sm md:text-base transition-all" />
+          <button type="submit"
+                  class="w-full px-5 py-3 rounded-lg bg-teal text-white font-bold text-sm md:text-base hover:bg-teal-dark transition-all duration-300 hover:scale-105 hover:shadow-teal-lg flex items-center justify-center gap-2">
+            <i class="fas fa-paper-plane"></i>
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="max-w-[1400px] mx-auto mt-8 md:mt-12 pt-6 md:pt-8 border-t border-lightgrey dark:border-darkgrey-light text-center">
+      <p class="text-textmuted text-xs md:text-sm">
+        © 2015‑2025 Growwpark EduTech. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // ===== ACTIVE PAGE DETECTION =====
+    function setActivePage() {
+      const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        const page = link.getAttribute('data-page');
+        
+        if (href === currentPage || 
+            (currentPage === 'blog.html' && page === 'blog') ||
+            (currentPage === '' && page === 'home')) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    setActivePage();
+
+    // ===== MOBILE MENU TOGGLE =====
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('navMenu');
+    const closeMenu = document.getElementById('closeMenu');
+
+    function closeMobileMenu() {
+      hamburger?.classList.remove('active');
+      navMenu.classList.remove('active');
+      document.body.style.overflow = '';
+      
+      document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.classList.remove('active');
+      });
+      document.querySelectorAll('.dropdown-arrow-mobile').forEach(arrow => {
+        arrow.classList.remove('rotated');
+      });
+    }
+
+    function isDesktopLandscape() {
+      return window.innerWidth >= 1024 && window.matchMedia("(orientation: landscape)").matches;
+    }
+
+    hamburger?.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!isDesktopLandscape()) {
+        hamburger.classList.add('active');
+        navMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+
+    closeMenu?.addEventListener('click', e => {
+      e.stopPropagation();
+      closeMobileMenu();
+    });
+
+    // ===== MOBILE DROPDOWN TOGGLE =====
+    document.querySelectorAll('.mobile-dropdown-toggle').forEach(button => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const targetContent = document.getElementById(targetId);
+        const arrow = this.querySelector('.dropdown-arrow-mobile');
+        
+        document.querySelectorAll('.dropdown-menu').forEach(content => {
+          if (content.id !== targetId && content.classList.contains('active')) {
+            content.classList.remove('active');
+            const otherButton = document.querySelector(`[data-target="${content.id}"]`);
+            if (otherButton) {
+              const otherArrow = otherButton.querySelector('.dropdown-arrow-mobile');
+              if (otherArrow) otherArrow.classList.remove('rotated');
+            }
+          }
+        });
+        
+        targetContent.classList.toggle('active');
+        arrow.classList.toggle('rotated');
+      });
+    });
+
+    document.querySelectorAll('.dropdown-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (!isDesktopLandscape()) {
+          closeMobileMenu();
+        }
+      });
+    });
+
+    document.querySelectorAll('.nav-item:not(.nav-dropdown) .nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (!isDesktopLandscape()) {
+          closeMobileMenu();
+        }
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      if (isDesktopLandscape()) {
+        hamburger?.classList.remove('active');
+        navMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // ===== DARK MODE =====
+    const darkModeToggle       = document.getElementById('darkModeToggle');
+    const darkModeIcon         = document.getElementById('darkModeIcon');
+    const darkModeToggleMobile = document.getElementById('darkModeToggleMobile');
+    const darkModeIconMobile   = document.getElementById('darkModeIconMobile');
+    const htmlElement          = document.documentElement;
+
+    function setDarkUI(theme) {
+      const isDark = theme === 'dark';
+      htmlElement.classList.toggle('dark', isDark);
+      htmlElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+
+      if (isDark) {
+        darkModeIcon?.classList.replace('fa-moon', 'fa-sun');
+        darkModeIconMobile?.classList.replace('fa-moon', 'fa-sun');
+        darkModeToggle?.classList.add('active');
+        darkModeToggleMobile?.classList.add('active');
+      } else {
+        darkModeIcon?.classList.replace('fa-sun', 'fa-moon');
+        darkModeIconMobile?.classList.replace('fa-sun', 'fa-moon');
+        darkModeToggle?.classList.remove('active');
+        darkModeToggleMobile?.classList.remove('active');
+      }
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setDarkUI(savedTheme);
+
+    function toggleDarkMode() {
+      const newTheme = htmlElement.classList.contains('dark') ? 'light' : 'dark';
+      setDarkUI(newTheme);
+    }
+
+    darkModeToggle?.addEventListener('click', toggleDarkMode);
+    darkModeToggleMobile?.addEventListener('click', toggleDarkMode);
+
+    // ===== RTL TOGGLE =====
+    const rtlToggle       = document.getElementById('rtlToggle');
+    const rtlToggleMobile = document.getElementById('rtlToggleMobile');
+
+    function setDirUI(direction) {
+      htmlElement.setAttribute('dir', direction);
+      localStorage.setItem('direction', direction);
+      const isRTL = direction === 'rtl';
+      if (isRTL) {
+        rtlToggle?.classList.add('active');
+        rtlToggleMobile?.classList.add('active');
+      } else {
+        rtlToggle?.classList.remove('active');
+        rtlToggleMobile?.classList.remove('active');
+      }
+    }
+
+    const savedDir = localStorage.getItem('direction') || 'ltr';
+    setDirUI(savedDir);
+
+    function toggleDir() {
+      const current = htmlElement.getAttribute('dir') || 'ltr';
+      const next = current === 'rtl' ? 'ltr' : 'rtl';
+      setDirUI(next);
+    }
+
+    rtlToggle?.addEventListener('click', toggleDir);
+    rtlToggleMobile?.addEventListener('click', toggleDir);
+
+    // ===== CATEGORY FILTER =====
+    const categoryItems = document.querySelectorAll('.category-item');
+    const blogCards = document.querySelectorAll('.blog-card');
+    const resultsCount = document.getElementById('resultsCount');
+
+    categoryItems.forEach(item => {
+      item.addEventListener('click', function() {
+        categoryItems.forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+        
+        const category = this.getAttribute('data-category') || this.querySelector('span').getAttribute('data-category');
+        
+        let count = 0;
+        blogCards.forEach(card => {
+          if (category === 'all' || card.getAttribute('data-category') === category) {
+            card.style.display = 'flex';
+            count++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        
+        resultsCount.textContent = count;
+      });
+    });
+
+    // ===== SEARCH FUNCTIONALITY =====
+    const searchBox = document.getElementById('searchBox');
+    searchBox.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      let count = 0;
+      
+      blogCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const excerpt = card.querySelector('.blog-excerpt').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || excerpt.includes(searchTerm)) {
+          card.style.display = 'flex';
+          count++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      resultsCount.textContent = count;
+    });
+
+    // ===== SORT FUNCTIONALITY =====
+    const sortDropdown = document.getElementById('sortDropdown');
+    sortDropdown.addEventListener('change', function() {
+      const sortValue = this.value;
+      const blogList = document.getElementById('blogList');
+      const cards = Array.from(blogCards);
+      
+      if (sortValue === 'newest') {
+        cards.sort((a, b) => {
+          const dateA = new Date(a.querySelector('.blog-meta span').textContent);
+          const dateB = new Date(b.querySelector('.blog-meta span').textContent);
+          return dateB - dateA;
+        });
+      } else if (sortValue === 'oldest') {
+        cards.sort((a, b) => {
+          const dateA = new Date(a.querySelector('.blog-meta span').textContent);
+          const dateB = new Date(b.querySelector('.blog-meta span').textContent);
+          return dateA - dateB;
+        });
+      }
+      
+      cards.forEach(card => blogList.appendChild(card));
+    });
+  </script>
+</body>
+</html>

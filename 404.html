@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="404 Page Not Found - Growwpark EduTech">
+  <title>404 - Page Not Found | Growwpark EduTech</title>
+  
+  <!-- ✅ FAVICON -->
+  <link rel="icon" type="image/x-icon" href="images/growwpark_logo.ico">
+  <link rel="shortcut icon" href="images/growwpark_logo.ico">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            purple: {
+              DEFAULT: '#8E44AD',
+              dark: '#6C2E8C',
+              light: '#A569BD',
+              pale: '#F4EAFB',
+            },
+            teal: {
+              DEFAULT: '#1ABC9C',
+              dark: '#16A085',
+              light: '#48C9B0',
+              pale: '#E8F8F5',
+            },
+            darkgrey: {
+              DEFAULT: '#1D1D1B',
+              light: '#333333',
+              lighter: '#666666',
+            },
+          },
+          animation: {
+            'float': 'float 3s ease-in-out infinite',
+            'fadeIn': 'fadeIn 0.8s ease-out',
+            'slideUp': 'slideUp 0.6s ease-out',
+            'pulse-slow': 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-20px)' }
+            },
+            fadeIn: {
+              from: { opacity: 0 },
+              to: { opacity: 1 }
+            },
+            slideUp: {
+              from: { opacity: 0, transform: 'translateY(30px)' },
+              to: { opacity: 1, transform: 'translateY(0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      height: 100%;
+    }
+
+    [data-theme="dark"] body {
+      background: linear-gradient(135deg, #1D1D1B 0%, #333333 100%);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(26,188,156,0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(142,68,173,0.3) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .floating-shapes {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .floating-shapes span {
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      animation: float-shapes 15s infinite ease-in-out;
+    }
+
+    @keyframes float-shapes {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+      50% { transform: translateY(-80px) rotate(180deg); opacity: 0.6; }
+    }
+
+    .floating-shapes span:nth-child(1) {
+      width: 80px;
+      height: 80px;
+      top: 15%;
+      left: 5%;
+      background: rgba(26, 188, 156, 0.15);
+      animation-delay: 0s;
+    }
+
+    .floating-shapes span:nth-child(2) {
+      width: 120px;
+      height: 120px;
+      top: 60%;
+      right: 5%;
+      background: rgba(142, 68, 173, 0.15);
+      animation-delay: 3s;
+    }
+
+    .floating-shapes span:nth-child(3) {
+      width: 60px;
+      height: 60px;
+      bottom: 15%;
+      left: 10%;
+      background: rgba(26, 188, 156, 0.2);
+      animation-delay: 6s;
+    }
+
+    .floating-shapes span:nth-child(4) {
+      width: 100px;
+      height: 100px;
+      top: 30%;
+      right: 15%;
+      background: rgba(142, 68, 173, 0.1);
+      animation-delay: 9s;
+    }
+
+    .error-number {
+      font-size: 5rem;
+      line-height: 1;
+      font-weight: 900;
+      background: linear-gradient(135deg, #8E44AD 0%, #1ABC9C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 10px 30px rgba(142, 68, 173, 0.3);
+    }
+
+    @media (min-width: 640px) {
+      .error-number {
+        font-size: 8rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .error-number {
+        font-size: 10rem;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple via-purple-dark to-darkgrey dark:from-darkgrey dark:via-darkgrey-light dark:to-darkgrey overflow-x-hidden pt-24">
+  <!-- ✅ CHANGED: Added pt-24 for top padding -->
+
+  <!-- Floating Background Shapes -->
+  <div class="floating-shapes">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Container Wrapper -->
+  <div class="relative z-10 min-h-screen flex flex-col px-3 sm:px-4 md:px-6 py-4 sm:py-6">
+    
+    <!-- NAVBAR: Company Logo on left, Dark/RTL buttons on right -->
+    <header class="fixed top-0 left-0 right-0 w-full z-50 px-3 sm:px-4 md:px-6 py-4">
+      <!-- ✅ CHANGED: Added fixed top-0 left-0 right-0 z-50 -->
+      <nav class="max-w-6xl mx-auto w-full bg-white/5 dark:bg-black/20 backdrop-blur-md rounded-xl md:rounded-2xl border border-white/10 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-4">
+        <!-- Left: Company Logo -->
+        <a href="index.html" class="inline-flex items-center gap-2 sm:gap-3 group flex-shrink-0">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple to-purple-light rounded-full flex items-center justify-center font-black text-white text-base sm:text-xl shadow-lg transition-transform group-hover:rotate-180 group-hover:scale-110">
+            GP
+          </div>
+          <div class="text-left hidden xs:block">
+            <div class="text-base sm:text-xl font-bold text-white">Growwpark</div>
+            <div class="text-xs text-teal">EduTech</div>
+          </div>
+        </a>
+
+        <!-- Right: Toggles -->
+        <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <!-- Dark Mode Toggle -->
+          <button id="darkModeToggle" class="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center text-purple dark:text-yellow-400 hover:scale-110 transition-all duration-300 border-2 border-teal">
+            <i id="darkModeIcon" class="fas fa-moon text-sm sm:text-base md:text-lg"></i>
+          </button>
+          <!-- RTL Toggle -->
+          <button id="rtlToggle" class="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center text-purple dark:text-white hover:scale-110 transition-all duration-300 border-2 border-teal">
+            <i class="fas fa-align-right text-sm sm:text-base md:text-lg"></i>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center w-full max-w-4xl mx-auto animate-fadeIn px-2 sm:px-4">
+      <div class="text-center w-full">
+        <!-- 404 Number -->
+        <div class="error-number mb-4 sm:mb-6 md:mb-8 animate-float">404</div>
+
+        <!-- Main Message -->
+        <div class="space-y-4 sm:space-y-6 animate-slideUp">
+          <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-3 sm:mb-4 px-2">
+            Oops! Page Not Found
+          </h1>
+          
+          <p class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-4 sm:mb-6 md:mb-8 max-w-2xl mx-auto px-4">
+            The page you're looking for seems to have gone on a learning adventure. Let's get you back on track!
+          </p>
+
+          <!-- Search Box -->
+          <div class="max-w-xl mx-auto mb-4 sm:mb-6 md:mb-8 px-2">
+            <div class="relative">
+              <input 
+                type="text" 
+                id="searchInput"
+                placeholder="Search for courses..."
+                class="w-full pl-4 sm:pl-6 pr-12 sm:pr-14 py-3 sm:py-4 text-sm sm:text-base rounded-full border-2 border-teal/30 bg-white/10 backdrop-blur-sm text-white placeholder-gray-400 focus:outline-none focus:border-teal focus:ring-4 focus:ring-teal/20 transition-all"
+              />
+              <button 
+                onclick="performSearch()"
+                class="absolute right-1.5 sm:right-2 top-1/2 transform -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 bg-teal rounded-full flex items-center justify-center text-white hover:bg-teal-dark transition-all">
+                <i class="fas fa-search text-sm sm:text-base"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2">
+            <a href="index.html" 
+               class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-teal to-teal-light text-white font-bold text-sm sm:text-base lg:text-lg rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
+              <i class="fas fa-home"></i>
+              Back to Home
+            </a>
+            
+            <a href="courses.html" 
+               class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/10 backdrop-blur-sm border-2 border-teal text-white font-bold text-sm sm:text-base lg:text-lg rounded-full hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2">
+              <i class="fas fa-book"></i>
+              Browse Courses
+            </a>
+          </div>
+
+          <!-- Help Text -->
+          <div class="mt-6 sm:mt-8 pb-4 sm:pb-8 text-gray-400 text-xs sm:text-sm px-4">
+            Need help? Contact us at <a href="mailto:support@growwpark.com" class="text-teal hover:text-teal-light underline break-all">support@growwpark.com</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const darkModeIcon = document.getElementById('darkModeIcon');
+    const htmlElement = document.documentElement;
+
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    if (currentTheme === 'dark') {
+      htmlElement.classList.add('dark');
+      htmlElement.setAttribute('data-theme', 'dark');
+      darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+    }
+
+    darkModeToggle.addEventListener('click', () => {
+      htmlElement.classList.toggle('dark');
+      const theme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+      htmlElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      if (theme === 'dark') {
+        darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+      } else {
+        darkModeIcon.classList.replace('fa-sun', 'fa-moon');
+      }
+    });
+
+    // RTL Toggle
+    const rtlToggle = document.getElementById('rtlToggle');
+    const currentDir = localStorage.getItem('direction') || 'ltr';
+    htmlElement.setAttribute('dir', currentDir);
+
+    rtlToggle.addEventListener('click', () => {
+      const dir = htmlElement.getAttribute('dir');
+      const newDir = dir === 'rtl' ? 'ltr' : 'rtl';
+      htmlElement.setAttribute('dir', newDir);
+      localStorage.setItem('direction', newDir);
+    });
+
+    // Search functionality
+    function performSearch() {
+      const searchInput = document.getElementById('searchInput');
+      const query = searchInput.value.trim();
+      if (query) {
+        window.location.href = `courses.html?search=${encodeURIComponent(query)}`;
+      }
+    }
+
+    // Allow Enter key to search
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+  </script>
+</body>
+</html>

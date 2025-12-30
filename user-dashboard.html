@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard - Growwpark EduTech</title>
+  
+  <!-- ✅ FAVICON -->
+  <link rel="icon" type="image/x-icon" href="images/growwpark_logo.ico">
+  <link rel="shortcut icon" href="images/growwpark_logo.ico">
+
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            purple: {
+              DEFAULT: '#8E44AD',
+              dark: '#6C2E8C',
+              light: '#A569BD',
+              pale: '#F4EAFB',
+            },
+            teal: {
+              DEFAULT: '#1ABC9C',
+              dark: '#16A085',
+              light: '#48C9B0',
+              pale: '#E8F8F5',
+            },
+            darkgrey: {
+              DEFAULT: '#1D1D1B',
+              light: '#333333',
+              lighter: '#666666',
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+
+    [data-theme="dark"] {
+      background-color: #1D1D1B;
+    }
+
+
+    /* ✅ FIXED SIDEBAR */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 16rem; /* 256px = w-64 */
+      transition: transform 0.3s ease;
+      z-index: 50;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+
+    /* Mobile: Hidden by default */
+    @media (max-width: 1023px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+    }
+
+
+    /* Desktop: Always visible */
+    @media (min-width: 1024px) {
+      .sidebar {
+        transform: translateX(0) !important;
+      }
+    }
+
+
+    /* ✅ FIXED MAIN CONTENT */
+    .main-content {
+      width: 100%;
+      min-height: 100vh;
+      padding-top: 5rem; /* Space for fixed header */
+    }
+
+
+    @media (min-width: 1024px) {
+      .main-content {
+        margin-left: 16rem; /* 256px = w-64 */
+        width: calc(100% - 16rem);
+      }
+    }
+
+
+    /* ✅ FIXED HEADER */
+    .top-header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 5rem;
+      z-index: 40;
+    }
+
+
+    @media (min-width: 1024px) {
+      .top-header {
+        left: 16rem; /* 256px = w-64 */
+        width: calc(100% - 16rem);
+      }
+    }
+
+
+    /* Course cards hover effect */
+    .course-card {
+      transition: all 0.3s ease;
+    }
+
+
+    .course-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+
+    /* Custom scrollbar */
+    .sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+
+    .sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+
+    [data-theme="dark"] .sidebar::-webkit-scrollbar-thumb {
+      background: #475569;
+    }
+
+
+    /* Progress animations */
+    @keyframes progressFill {
+      from {
+        width: 0;
+      }
+    }
+
+
+    .progress-bar {
+      animation: progressFill 1s ease-out;
+    }
+  </style>
+</head>
+
+
+<body class="bg-gray-50 dark:bg-darkgrey text-gray-900 dark:text-gray-100">
+
+
+  <!-- Mobile Overlay -->
+  <div id="overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+
+
+  <!-- ✅✅✅ SIDEBAR - LOGOUT REMOVED ✅✅✅ -->
+  <aside id="sidebar" class="sidebar bg-white dark:bg-textsecondary shadow-xl">
+    <!-- Logo -->
+    <div class="p-6 border-b border-gray-200 dark:border-darkgrey-light flex-shrink-0">
+      <a href="index.html" class="flex items-center gap-3 group no-underline">
+        <div class="w-12 h-12 bg-gradient-to-br from-purple to-purple-light rounded-full flex items-center justify-center font-black text-white text-lg shadow-lg transition-transform group-hover:rotate-180">
+          GP
+        </div>
+        <div>
+          <div class="text-lg font-bold text-gray-900 dark:text-white">Growwpark</div>
+          <div class="text-xs text-purple">EduTech</div>
+        </div>
+      </a>
+    </div>
+
+
+    <!-- User Profile Card -->
+    <div class="p-4 m-4 bg-gradient-to-br from-teal to-teal-light rounded-2xl text-white shadow-lg">
+      <div class="flex items-center gap-3 mb-3">
+        <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=fff&color=1ABC9C" class="w-14 h-14 rounded-full border-2 border-white" alt="Profile" />
+        <div class="min-w-0 flex-1">
+          <h3 class="font-bold text-base truncate">Sarah Johnson</h3>
+          <p class="text-xs opacity-90">Student ID: GW2025</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-between text-xs">
+        <div>
+          <p class="opacity-80">Courses Enrolled</p>
+          <p class="font-bold text-lg">8</p>
+        </div>
+        <div>
+          <p class="opacity-80">Completed</p>
+          <p class="font-bold text-lg">5</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Menu - LOGOUT REMOVED -->
+    <nav class="p-4">
+      <a href="#" class="flex items-center gap-3 px-4 py-3 mb-2 bg-teal text-white rounded-lg font-semibold shadow-md no-underline">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 mb-2 text-gray-600 dark:text-gray-300 hover:bg-teal/10 hover:text-teal rounded-lg transition no-underline">
+        <i class="fas fa-book-open"></i>
+        <span>My Courses</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 mb-2 text-gray-600 dark:text-gray-300 hover:bg-teal/10 hover:text-teal rounded-lg transition no-underline">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Schedule</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 mb-2 text-gray-600 dark:text-gray-300 hover:bg-teal/10 hover:text-teal rounded-lg transition no-underline">
+        <i class="fas fa-file-alt"></i>
+        <span>Assignments</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 mb-2 text-gray-600 dark:text-gray-300 hover:bg-teal/10 hover:text-teal rounded-lg transition no-underline">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Grades</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-4 py-3 mb-2 text-gray-600 dark:text-gray-300 hover:bg-teal/10 hover:text-teal rounded-lg transition no-underline">
+        <i class="fas fa-comments"></i>
+        <span>Messages</span>
+      </a>
+    </nav>
+  </aside>
+
+
+  <!-- ✅✅✅ MAIN CONTENT ✅✅✅ -->
+  <main class="main-content">
+    
+    <!-- ✅✅✅ FIXED HEADER - ONLY ONE LOGOUT KEPT ✅✅✅ -->
+    <header class="top-header bg-white dark:bg-textsecondary shadow-md">
+      <div class="flex items-center justify-between h-full px-4 sm:px-6">
+        <!-- Left Section -->
+        <div class="flex items-center gap-4 min-w-0 flex-1">
+          <!-- Mobile Menu Button -->
+          <button id="menuBtn" class="lg:hidden text-gray-600 dark:text-gray-300 text-xl flex-shrink-0">
+            <i class="fas fa-bars"></i>
+          </button>
+
+
+          <!-- Greeting -->
+          <div class="min-w-0">
+            <h1 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white truncate">Welcome Back, Sarah! 👋</h1>
+            <p class="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">Ready to continue your learning journey?</p>
+          </div>
+        </div>
+
+
+        <!-- Right Controls -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <!-- Dark Mode -->
+          <button id="darkModeToggle" class="w-10 h-10 bg-gray-100 dark:bg-darkgrey-light rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-teal hover:text-white transition">
+            <i id="darkModeIcon" class="fas fa-moon text-sm"></i>
+          </button>
+
+
+          <!-- RTL -->
+          <button id="rtlToggle" class="w-10 h-10 bg-gray-100 dark:bg-darkgrey-light rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-teal hover:text-white transition">
+            <i class="fas fa-align-right text-sm"></i>
+          </button>
+
+
+          <!-- ✅ ONLY ONE LOGOUT BUTTON KEPT -->
+          <a href="login.html" class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center text-red-600 dark:text-red-400 hover:bg-red-500 hover:text-white transition" title="Logout">
+            <i class="fas fa-sign-out-alt text-sm"></i>
+          </a>
+
+
+          <!-- Notification -->
+          <button class="relative w-10 h-10 bg-gray-100 dark:bg-darkgrey-light rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-teal hover:text-white transition">
+            <i class="fas fa-bell text-sm"></i>
+            <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center font-bold">5</span>
+          </button>
+
+
+          <!-- Profile - LOGOUT REMOVED FROM DROPDOWN -->
+          <div class="relative">
+            <button id="profileBtn" class="flex items-center gap-2 hover:opacity-80 transition">
+              <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=1ABC9C&color=fff" alt="Profile" class="w-10 h-10 rounded-full border-2 border-teal" />
+              <i class="fas fa-chevron-down text-xs text-gray-600 dark:text-gray-300 hidden sm:block"></i>
+            </button>
+
+
+            <!-- Dropdown - LOGOUT REMOVED -->
+            <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-textsecondary rounded-lg shadow-xl border border-gray-200 dark:border-darkgrey-light overflow-hidden z-50">
+              <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-darkgrey-light transition no-underline text-gray-900 dark:text-white">
+                <i class="fas fa-user text-teal"></i>
+                <span>My Profile</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-darkgrey-light transition no-underline text-gray-900 dark:text-white">
+                <i class="fas fa-cog text-teal"></i>
+                <span>Settings</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- Dashboard Content -->
+    <div class="p-4 sm:p-6">
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 mb-6">
+        <!-- Enrolled Courses -->
+        <div class="bg-white dark:bg-textsecondary rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center">
+              <i class="fas fa-book-open text-2xl text-blue-500"></i>
+            </div>
+            <span class="text-xs font-semibold text-emerald-500">Active</span>
+          </div>
+          <h3 class="text-sm text-gray-500 dark:text-gray-400 mb-1">Enrolled Courses</h3>
+          <p class="text-3xl font-black text-gray-900 dark:text-white">8</p>
+        </div>
+
+
+        <!-- Completed Courses -->
+        <div class="bg-white dark:bg-textsecondary rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center">
+              <i class="fas fa-check-circle text-2xl text-emerald-500"></i>
+            </div>
+            <span class="text-xs font-semibold text-blue-500">+2 This Month</span>
+          </div>
+          <h3 class="text-sm text-gray-500 dark:text-gray-400 mb-1">Completed Courses</h3>
+          <p class="text-3xl font-black text-gray-900 dark:text-white">5</p>
+        </div>
+
+
+        <!-- Certificates -->
+        <div class="bg-white dark:bg-textsecondary rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center">
+              <i class="fas fa-certificate text-2xl text-amber-500"></i>
+            </div>
+            <span class="text-xs font-semibold text-purple">New!</span>
+          </div>
+          <h3 class="text-sm text-gray-500 dark:text-gray-400 mb-1">Certificates</h3>
+          <p class="text-3xl font-black text-gray-900 dark:text-white">3</p>
+        </div>
+
+
+        <!-- Overall Progress -->
+        <div class="bg-gradient-to-br from-teal to-teal-light rounded-2xl p-6 shadow-lg hover:shadow-xl transition text-white">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+              <i class="fas fa-chart-line text-2xl"></i>
+            </div>
+            <span class="text-xs font-semibold">↑ 12%</span>
+          </div>
+          <h3 class="text-sm opacity-90 mb-1">Overall Progress</h3>
+          <p class="text-3xl font-black">78%</p>
+        </div>
+      </div>
+
+
+      <!-- Main Grid -->
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+        <!-- Left Column -->
+        <div class="xl:col-span-2 space-y-6">
+          <!-- Continue Learning -->
+          <div class="bg-white dark:bg-textsecondary rounded-2xl shadow-lg p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-xl font-bold text-gray-900 dark:text-white">Continue Learning</h2>
+              <a href="#" class="text-sm text-teal hover:underline font-semibold">View All</a>
+            </div>
+
+
+            <div class="space-y-4">
+              <!-- Course 1 -->
+              <div class="course-card bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-4 border border-blue-100 dark:border-blue-800">
+                <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+                  <div class="flex items-center gap-3 min-w-0 flex-1">
+                    <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white text-xl flex-shrink-0">
+                      <i class="fab fa-js"></i>
+                    </div>
+                    <div class="min-w-0">
+                      <h3 class="font-bold text-gray-900 dark:text-white truncate">JavaScript Fundamentals</h3>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">by Prof. John Smith</p>
+                    </div>
+                  </div>
+                  <span class="px-3 py-1 bg-blue-500 text-white text-xs font-semibold rounded-full flex-shrink-0">In Progress</span>
+                </div>
+                <div class="mb-3">
+                  <div class="flex items-center justify-between text-xs mb-1">
+                    <span class="text-gray-600 dark:text-gray-400">Progress</span>
+                    <span class="font-bold text-blue-500">65%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                    <div class="progress-bar bg-blue-500 h-2 rounded-full" style="width: 65%;"></div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600 dark:text-gray-400">
+                  <span><i class="far fa-clock mr-1"></i>12 hours left</span>
+                  <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition font-semibold">Continue</button>
+                </div>
+              </div>
+
+
+              <!-- Course 2 -->
+              <div class="course-card bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-4 border border-purple-100 dark:border-purple-800">
+                <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+                  <div class="flex items-center gap-3 min-w-0 flex-1">
+                    <div class="w-12 h-12 bg-purple rounded-lg flex items-center justify-center text-white text-xl flex-shrink-0">
+                      <i class="fab fa-react"></i>
+                    </div>
+                    <div class="min-w-0">
+                      <h3 class="font-bold text-gray-900 dark:text-white truncate">React.js Masterclass</h3>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">by Dr. Emily Chen</p>
+                    </div>
+                  </div>
+                  <span class="px-3 py-1 bg-purple text-white text-xs font-semibold rounded-full flex-shrink-0">In Progress</span>
+                </div>
+                <div class="mb-3">
+                  <div class="flex items-center justify-between text-xs mb-1">
+                    <span class="text-gray-600 dark:text-gray-400">Progress</span>
+                    <span class="font-bold text-purple">42%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                    <div class="progress-bar bg-purple h-2 rounded-full" style="width: 42%;"></div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600 dark:text-gray-400">
+                  <span><i class="far fa-clock mr-1"></i>18 hours left</span>
+                  <button class="px-4 py-2 bg-purple text-white rounded-lg hover:bg-purple-dark transition font-semibold">Continue</button>
+                </div>
+              </div>
+
+
+              <!-- Course 3 -->
+              <div class="course-card bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl p-4 border border-emerald-100 dark:border-emerald-800">
+                <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+                  <div class="flex items-center gap-3 min-w-0 flex-1">
+                    <div class="w-12 h-12 bg-teal rounded-lg flex items-center justify-center text-white text-xl flex-shrink-0">
+                      <i class="fab fa-python"></i>
+                    </div>
+                    <div class="min-w-0">
+                      <h3 class="font-bold text-gray-900 dark:text-white truncate">Python for Data Science</h3>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">by Prof. Michael Lee</p>
+                    </div>
+                  </div>
+                  <span class="px-3 py-1 bg-teal text-white text-xs font-semibold rounded-full flex-shrink-0">In Progress</span>
+                </div>
+                <div class="mb-3">
+                  <div class="flex items-center justify-between text-xs mb-1">
+                    <span class="text-gray-600 dark:text-gray-400">Progress</span>
+                    <span class="font-bold text-teal">88%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                    <div class="progress-bar bg-teal h-2 rounded-full" style="width: 88%;"></div>
+                  </div>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600 dark:text-gray-400">
+                  <span><i class="far fa-clock mr-1"></i>3 hours left</span>
+                  <button class="px-4 py-2 bg-teal text-white rounded-lg hover:bg-teal-dark transition font-semibold">Continue</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Upcoming Assignments -->
+          <div class="bg-white dark:bg-textsecondary rounded-2xl shadow-lg p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-xl font-bold text-gray-900 dark:text-white">Upcoming Assignments</h2>
+              <span class="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-500 text-xs font-semibold rounded-full">3 Due Soon</span>
+            </div>
+
+
+            <div class="space-y-3">
+              <!-- Assignment 1 -->
+              <div class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-darkgrey-light rounded-xl hover:shadow-md transition">
+                <div class="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-file-code text-red-500 text-xl"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-semibold text-gray-900 dark:text-white text-sm truncate">JavaScript Final Project</h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Due: Tomorrow, 11:59 PM</p>
+                </div>
+                <span class="px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-full flex-shrink-0">Urgent</span>
+              </div>
+
+
+              <!-- Assignment 2 -->
+              <div class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-darkgrey-light rounded-xl hover:shadow-md transition">
+                <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-pencil-alt text-amber-500 text-xl"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-semibold text-gray-900 dark:text-white text-sm truncate">React Component Design</h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Due: Dec 18, 2025</p>
+                </div>
+                <span class="px-3 py-1 bg-amber-500 text-white text-xs font-semibold rounded-full flex-shrink-0">Medium</span>
+              </div>
+
+
+              <!-- Assignment 3 -->
+              <div class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-darkgrey-light rounded-xl hover:shadow-md transition">
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-chart-bar text-blue-500 text-xl"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-semibold text-gray-900 dark:text-white text-sm truncate">Data Analysis Report</h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Due: Dec 20, 2025</p>
+                </div>
+                <span class="px-3 py-1 bg-blue-500 text-white text-xs font-semibold rounded-full flex-shrink-0">Low</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Right Column -->
+        <div class="space-y-6">
+          <!-- Learning Progress Chart -->
+          <div class="bg-white dark:bg-textsecondary rounded-2xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Weekly Learning Progress</h3>
+            
+            <div style="height: 250px; position: relative;" class="mb-6">
+              <canvas id="progressChart"></canvas>
+            </div>
+
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 bg-teal rounded-full"></div>
+                  <span class="text-sm text-gray-600 dark:text-gray-400">Study Hours</span>
+                </div>
+                <span class="text-sm font-bold text-gray-900 dark:text-white">28h</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                  <span class="text-sm text-gray-600 dark:text-gray-400">Goal</span>
+                </div>
+                <span class="text-sm font-bold text-gray-900 dark:text-white">30h</span>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Today's Schedule -->
+          <div class="bg-white dark:bg-textsecondary rounded-2xl shadow-lg p-6">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-6">Today's Schedule</h3>
+            
+            <div class="space-y-4">
+              <!-- Class 1 -->
+              <div class="flex gap-3">
+                <div class="flex flex-col items-center flex-shrink-0">
+                  <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                    <span class="text-xs font-bold text-blue-500">10:00</span>
+                  </div>
+                  <div class="w-0.5 h-full bg-gray-200 dark:bg-gray-700 mt-2"></div>
+                </div>
+                <div class="flex-1 pb-4 min-w-0">
+                  <h4 class="font-semibold text-gray-900 dark:text-white text-sm">Web Development Class</h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Prof. John Smith • Room 301</p>
+                  <span class="inline-block mt-2 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-500 text-xs font-semibold rounded">Online</span>
+                </div>
+              </div>
+
+
+              <!-- Class 2 -->
+              <div class="flex gap-3">
+                <div class="flex flex-col items-center flex-shrink-0">
+                  <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                    <span class="text-xs font-bold text-purple">14:00</span>
+                  </div>
+                  <div class="w-0.5 h-full bg-gray-200 dark:bg-gray-700 mt-2"></div>
+                </div>
+                <div class="flex-1 pb-4 min-w-0">
+                  <h4 class="font-semibold text-gray-900 dark:text-white text-sm">React Workshop</h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Dr. Emily Chen • Lab A</p>
+                  <span class="inline-block mt-2 px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple text-xs font-semibold rounded">Hybrid</span>
+                </div>
+              </div>
+
+
+              <!-- Class 3 -->
+              <div class="flex gap-3">
+                <div class="flex flex-col items-center flex-shrink-0">
+                  <div class="w-12 h-12 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center">
+                    <span class="text-xs font-bold text-teal">16:30</span>
+                  </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-semibold text-gray-900 dark:text-white text-sm">Python Study Group</h4>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Peer Session • Library</p>
+                  <span class="inline-block mt-2 px-2 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal text-xs font-semibold rounded">In-Person</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Achievements -->
+          <div class="bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl shadow-lg p-6 text-white">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-bold">Recent Achievement</h3>
+              <i class="fas fa-trophy text-3xl opacity-20"></i>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-star text-2xl"></i>
+              </div>
+              <div class="min-w-0">
+                <h4 class="font-bold text-base">Course Completion Master</h4>
+                <p class="text-xs opacity-90">Completed 5 courses this semester!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Recent Activity -->
+      <div class="bg-white dark:bg-textsecondary rounded-2xl shadow-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Recent Activity</h2>
+        
+        <div class="space-y-4">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-check text-blue-500"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm text-gray-900 dark:text-white"><span class="font-semibold">You completed</span> Module 5 of JavaScript Fundamentals</p>
+              <span class="text-xs text-gray-500 dark:text-gray-400">2 hours ago</span>
+            </div>
+          </div>
+
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-trophy text-emerald-500"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm text-gray-900 dark:text-white"><span class="font-semibold">Achievement unlocked:</span> Course Completion Master</p>
+              <span class="text-xs text-gray-500 dark:text-gray-400">5 hours ago</span>
+            </div>
+          </div>
+
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-file-alt text-purple"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm text-gray-900 dark:text-white"><span class="font-semibold">New assignment posted</span> in React.js Masterclass</p>
+              <span class="text-xs text-gray-500 dark:text-gray-400">Yesterday</span>
+            </div>
+          </div>
+
+
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-certificate text-amber-500"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm text-gray-900 dark:text-white"><span class="font-semibold">Certificate earned</span> for Web Design Basics</p>
+              <span class="text-xs text-gray-500 dark:text-gray-400">3 days ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <script>
+    // Mobile Menu
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+
+    if (menuBtn && sidebar && overlay) {
+      menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('hidden');
+      });
+
+
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.add('hidden');
+      });
+    }
+
+
+    // Profile Dropdown
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+
+    if (profileBtn && profileDropdown) {
+      profileBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        profileDropdown.classList.toggle('hidden');
+      });
+
+
+      document.addEventListener('click', (e) => {
+        if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+          profileDropdown.classList.add('hidden');
+        }
+      });
+    }
+
+
+    // Dark Mode
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const darkModeIcon = document.getElementById('darkModeIcon');
+    const htmlElement = document.documentElement;
+
+
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    if (currentTheme === 'dark') {
+      htmlElement.classList.add('dark');
+      htmlElement.setAttribute('data-theme', 'dark');
+      if (darkModeIcon) {
+        darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+      }
+    }
+
+
+    if (darkModeToggle) {
+      darkModeToggle.addEventListener('click', () => {
+        htmlElement.classList.toggle('dark');
+        const theme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+        htmlElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        if (darkModeIcon) {
+          if (theme === 'dark') {
+            darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+          } else {
+            darkModeIcon.classList.replace('fa-sun', 'fa-moon');
+          }
+        }
+      });
+    }
+
+
+    // RTL Toggle
+    const rtlToggle = document.getElementById('rtlToggle');
+    const currentDir = localStorage.getItem('direction') || 'ltr';
+    htmlElement.setAttribute('dir', currentDir);
+
+
+    if (rtlToggle) {
+      rtlToggle.addEventListener('click', () => {
+        const dir = htmlElement.getAttribute('dir');
+        const newDir = dir === 'rtl' ? 'ltr' : 'rtl';
+        htmlElement.setAttribute('dir', newDir);
+        localStorage.setItem('direction', newDir);
+      });
+    }
+
+
+    // Chart
+    const chartCanvas = document.getElementById('progressChart');
+    if (chartCanvas) {
+      const ctx = chartCanvas.getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'Study Hours',
+            data: [3, 5, 4, 6, 5, 2, 3],
+            borderColor: '#1ABC9C',
+            backgroundColor: 'rgba(26, 188, 156, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 5,
+            pointBackgroundColor: '#1ABC9C',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 8,
+              ticks: { stepSize: 2 }
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
